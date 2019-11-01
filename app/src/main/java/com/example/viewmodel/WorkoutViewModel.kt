@@ -58,7 +58,19 @@ class WorkoutViewModel(app: Application): AndroidViewModel(app) {
      * @param workout Updated [Workout] object
      */
     fun updateWorkout(workout: Workout) {
-        this.workoutDao.update(workout)
+        AsyncWorkoutUpdate(workoutDao).execute(workout)
+    }
+
+    /**
+     * Async class to update workouts to the database
+     *
+     * @param workoutDao Reference to the workout Dao
+     */
+    class AsyncWorkoutUpdate(private val workoutDao: WorkoutDao): AsyncTask<Workout, Void, Unit>() {
+        override fun doInBackground(vararg workout: Workout) {
+            // This should only ever take in a single input
+            workoutDao.update(workout[0])
+        }
     }
 
     /**
@@ -67,6 +79,18 @@ class WorkoutViewModel(app: Application): AndroidViewModel(app) {
      * @param workout [Workout] object to delete
      */
     fun deleteWorkout(workout: Workout) {
-        this.workoutDao.delete(workout)
+        AsyncWorkoutDelete(workoutDao).execute(workout)
+    }
+
+    /**
+     * Async class to delete workouts from the database
+     *
+     * @param workoutDao Reference to the workout Dao
+     */
+    class AsyncWorkoutDelete(private val workoutDao: WorkoutDao): AsyncTask<Workout, Void, Unit>() {
+        override fun doInBackground(vararg workout: Workout) {
+            // This should only ever take in a single input
+            workoutDao.delete(workout[0])
+        }
     }
 }

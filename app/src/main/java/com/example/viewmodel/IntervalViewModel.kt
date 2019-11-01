@@ -26,7 +26,7 @@ class IntervalViewModel(app: Application): AndroidViewModel(app) {
      *
      * @param interval [Interval] to insert
      */
-    fun insertIntervals(vararg interval: Interval) {
+    fun insertInterval(vararg interval: Interval) {
         AsyncIntervalInsert(intervalDao).execute(*interval)
     }
 
@@ -56,7 +56,19 @@ class IntervalViewModel(app: Application): AndroidViewModel(app) {
      * @param interval Updated [Interval] object
      */
     fun updateInterval(interval: Interval) {
-        this.intervalDao.update(interval)
+        AsyncIntervalUpdate(intervalDao).execute(interval)
+    }
+
+    /**
+     * Async class to insert intervals to the database
+     *
+     * @param intervalDao Reference to the interval Dao
+     */
+    class AsyncIntervalUpdate(private val intervalDao: IntervalDao): AsyncTask<Interval, Void, Unit>() {
+        override fun doInBackground(vararg interval: Interval) {
+            // This should only ever receive a single interval
+            intervalDao.update(interval[0])
+        }
     }
 
     /**
@@ -65,6 +77,18 @@ class IntervalViewModel(app: Application): AndroidViewModel(app) {
      * @param interval [Interval] object to delete
      */
     fun deleteInterval(interval: Interval) {
-        this.intervalDao.delete(interval)
+        AsyncIntervalDelete(intervalDao).execute(interval)
+    }
+
+    /**
+     * Async class to insert intervals to the database
+     *
+     * @param intervalDao Reference to the interval Dao
+     */
+    class AsyncIntervalDelete(private val intervalDao: IntervalDao): AsyncTask<Interval, Void, Unit>() {
+        override fun doInBackground(vararg interval: Interval) {
+            // This should only ever receive a single interval
+            intervalDao.delete(interval[0])
+        }
     }
 }
