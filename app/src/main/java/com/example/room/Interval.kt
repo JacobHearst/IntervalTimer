@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
  */
 @Entity
 data class Interval(
-    @PrimaryKey(autoGenerate=true) val intervalId: Int,
+    @PrimaryKey(autoGenerate=true) val intervalId: Int?,
     @ColumnInfo(name="i_name") val intervalName: String,
     @ColumnInfo(name="i_type") val intervalType: String,
     @ColumnInfo(name="i_time") val intervalTime: Int?,
