@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/landingFragment"
         android:name="com.example.intervaltimer.LandingFragment"
-        android:label="fragment_landing"
+        android:label="Interval Timer"
         tools:layout="@layout/fragment_landing" >
         <action
             android:id="@+id/action_landingFragment_to_intervalListFragment"
