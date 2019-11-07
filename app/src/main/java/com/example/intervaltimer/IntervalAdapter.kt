@@ -61,7 +61,7 @@ class IntervalAdapter : RecyclerView.Adapter<IntervalAdapter.ViewHolder>() {
         if (intervals != null) {
             val interval = this.intervals!![position]
             intervalName.text = interval.intervalName
-            intervalTime.text = getDurationLabel(interval)
+            intervalTime.text = interval.getDurationLabel()
         }
     }
 
@@ -69,21 +69,4 @@ class IntervalAdapter : RecyclerView.Adapter<IntervalAdapter.ViewHolder>() {
      * Return size of the data set
      */
     override fun getItemCount() = intervals?.size ?: 0
-
-    /**
-     * Determine whether to display the time as a number or
-     */
-    private fun getDurationLabel(interval: Interval): String {
-        return when {
-            interval.intervalTime != null -> {
-                val minutes: Int = interval.intervalTime / 60
-                val seconds = interval.intervalTime % 60
-                // Add a 0 in front of the seconds if it's < 10
-                // Turns this: 1:3 to this: 1:03
-                "$minutes:${if(seconds < 10) "0" else ""}$seconds"
-            }
-            interval.intervalReps != null -> "${interval.intervalReps} reps"
-            else -> "Error"
-        }
-    }
 }

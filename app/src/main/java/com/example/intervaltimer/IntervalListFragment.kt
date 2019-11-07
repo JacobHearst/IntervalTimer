@@ -5,39 +5,37 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.intervaltimer.databinding.FragmentIntervalListBinding
 import com.example.room.Interval
-import com.example.room.Workout
 import com.example.viewmodel.IntervalViewModel
+import kotlinx.android.synthetic.main.fragment_interval_list.view.*
 
 /**
  * A [Fragment] subclass representing the list of intervals in a workout.
  */
 class IntervalListFragment : Fragment() {
-    // TODO: Replace this with input from navigation args
-    private val workoutData = Workout(1, "Workout 1", 300)
+    private val args: IntervalListFragmentArgs by navArgs()
 
     /**
      * Initialize data binding, recycler view
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val binding = DataBindingUtil.inflate<FragmentIntervalListBinding>(inflater, R.layout.fragment_interval_list, container, false)
-        initRecyclerView(binding.intervalList)
+        val rootView = inflater.inflate(R.layout.fragment_interval_list, container, false)
+        initRecyclerView(rootView.intervalList)
 
-        this.activity?.actionBar?.title = workoutData.workoutName
+        requireActivity().title = args.workout.workoutName
 
-        binding.addInterval.setOnClickListener {
+        rootView.addInterval.setOnClickListener {
             // TODO: Implement addition of new intervals
         }
 
-        return binding.root
+        return rootView
     }
 
     /**
@@ -57,10 +55,12 @@ class IntervalListFragment : Fragment() {
 
         val viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
 
-        viewModel.getIntervalsByWorkout(workoutData.workoutId!!).observe(this,
+        // Populate the RecyclerView
+        viewModel.getIntervalsByWorkout(args.workout.workoutId!!).observe(this,
             Observer<List<Interval>> { intervals ->
                 intervalAdapter.setIntervals(intervals)
-            })
+            }
+        )
     }
 
 
