@@ -70,8 +70,11 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
         val workoutName = holder.workoutView.findViewById<TextView>(R.id.workoutNameText)
         val workoutTime = holder.workoutView.findViewById<TextView>(R.id.workoutTimeText)
 
+        // If there is data to display
         if(workouts != null) {
-            val workout = workouts?.get(position) ?: Workout("", 0.0, false);
+
+            // Get a workout from the list. If it doesn't exist, create a blank workout
+            val workout = workouts?.get(position) ?: Workout(0,"", 0.0, false);
 
             workoutName.text = workout.name
             workoutTime.text = workout.time.toString() + " minutes"
