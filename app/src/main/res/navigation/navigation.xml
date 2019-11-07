@@ -10,5 +10,18 @@
         android:id="@+id/landingFragment"
         android:name="com.example.intervaltimer.LandingFragment"
         android:label="Interval Timer"
-        tools:layout="@layout/fragment_landing" />
+        tools:layout="@layout/fragment_landing" >
+        <action
+            android:id="@+id/action_landingFragment_to_intervalListFragment"
+            app:destination="@id/intervalListFragment"
+            app:popUpTo="@+id/landingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/intervalListFragment"
+        android:name="com.example.intervaltimer.IntervalListFragment"
+        tools:layout="@layout/fragment_interval_list">
+        <argument
+            android:name="workout"
+            app:argType="com.example.room.Workout" />
+    </fragment>
 </navigation>

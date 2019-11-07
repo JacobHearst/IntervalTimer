@@ -35,4 +35,25 @@ data class Interval(
      * Enum representing the two types of intervals
      */
     enum class IntervalType(val value: String){ REST("REST"), ACTIVE("ACTIVE") }
+
+    /**
+     * Determine whether to display the interval duration as a time or
+     * as the number of reps. If displaying as time, ensure that the time
+     * is properly formatted
+     *
+     * @return String representation of the duration of the interval
+     */
+    fun getDurationLabel(): String {
+        return when {
+            this.intervalTime != null -> {
+                val minutes: Int = this.intervalTime / 60
+                val seconds = this.intervalTime % 60
+                // Add a 0 in front of the seconds if it's < 10
+                // Turns this: 1:3 to this: 1:03
+                "$minutes:${if(seconds < 10) "0" else ""}$seconds"
+            }
+            this.intervalReps != null -> "${this.intervalReps} reps"
+            else -> "Error"
+        }
+    }
 }
