@@ -1,6 +1,5 @@
 package com.example.intervaltimer
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.subshop.WorkoutCardAdapter
+import com.example.intervaltimer.WorkoutCardAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_landing.view.*
 
@@ -46,7 +45,8 @@ class LandingFragment : Fragment() {
         }
 
         val workouts = listOf<Workout>(Workout(1,"Workout 1", 0.4, false),
-                                       Workout(2,"Workout 2", 1.1, true))
+                                       Workout(2,"Workout 2", 1.1, true),
+                                       Workout(3, "Back Workout", 16.8, true) )
 
         recyclerLayout = LinearLayoutManager(this.context)
         recyclerAdapter = WorkoutCardAdapter(workouts)

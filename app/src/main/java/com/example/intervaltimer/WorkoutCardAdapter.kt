@@ -1,4 +1,4 @@
-package com.example.subshop
+package com.example.intervaltimer
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,7 @@ import com.example.intervaltimer.Workout
 import java.util.*
 
 /**
- * Adapter class for the Workou recycler view.
+ * Adapter class for the Workout recycler view.
  *
  * @property workouts List of workouts to display
  */
@@ -54,6 +54,11 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutHolder {
         val view = (LayoutInflater.from(parent.context).inflate(R.layout.workout_card, parent, false))
+
+        view.setOnClickListener {
+            // TODO: Implement navigation to new screen
+            println("TODO: Implement navigation to new screen")
+        }
 
         return WorkoutHolder(view)
     }
