@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.intervaltimer.R
-import com.example.intervaltimer.Workout
-import java.util.*
 
 /**
  * Adapter class for the Workout recycler view.
@@ -17,9 +16,11 @@ import java.util.*
 class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolder>() {
 
     private var workouts: List<Workout>? = null
+    private var fragment: Fragment? = null
 
-    constructor(workouts: List<Workout>) : this(){
+    constructor(workouts: List<Workout>, fragment: Fragment) : this(){
         this.workouts = workouts
+        this.fragment = fragment
     }
 
     /**
@@ -55,11 +56,6 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutHolder {
         val view = (LayoutInflater.from(parent.context).inflate(R.layout.workout_card, parent, false))
 
-        view.setOnClickListener {
-            // TODO: Implement navigation to new screen
-            println("TODO: Implement navigation to new screen")
-        }
-
         return WorkoutHolder(view)
     }
 
@@ -83,6 +79,11 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
 
             workoutName.text = workout.name
             workoutTime.text = workout.time.toString() + " minutes"
+
+            holder.workoutView.setOnClickListener {
+                // TODO: There is a Room workout, and then a second Workout class. Combine the two.
+                findNavController(fragment!!).navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(com.example.room.Workout(0, workout.name, workout.time.toInt())));
+            }
         }
         else {
 

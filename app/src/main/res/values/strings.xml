@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Interval Timer</string>
+    <string name="notification_channel">default.channel</string>
+    <string name="notification_rewind_action">REWIND</string>
+    <string name="notification_pause_action">PAUSE</string>
+    <string name="notification_fast_forward_action">FAST FORWARD</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
