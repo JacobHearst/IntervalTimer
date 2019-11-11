@@ -8,8 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.intervaltimer.WorkoutCardAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.room.Workout
 import kotlinx.android.synthetic.main.fragment_landing.view.*
 
 /**
@@ -44,7 +43,8 @@ class LandingFragment : Fragment() {
             Toast.makeText(this.context, "TODO: Navigate to new workout screen", Toast.LENGTH_LONG).show()
         }
 
-        val workouts = listOf<Workout>(Workout(1,"Workout 1", 0.4, false),
+        val workouts = listOf(
+            Workout(1,"Workout 1", 0.4, false),
                                        Workout(2,"Workout 2", 1.1, true),
                                        Workout(3, "Back Workout", 16.8, true) )
 

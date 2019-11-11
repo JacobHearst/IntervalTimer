@@ -5,9 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.intervaltimer.R
-import com.example.intervaltimer.Workout
-import java.util.*
+import com.example.room.Workout
 
 /**
  * Adapter class for the Workout recycler view.
@@ -82,7 +80,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             val workout = workouts?.get(position) ?: Workout(0,"", 0.0, false);
 
             workoutName.text = workout.name
-            workoutTime.text = workout.time.toString() + " minutes"
+            workoutTime.text = workout.length.toString() + " minutes"
         }
         else {
 

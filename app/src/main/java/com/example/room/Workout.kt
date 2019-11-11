@@ -8,13 +8,15 @@ import java.io.Serializable
 /**
  * [Entity] data class representing the Workout table in the app database
  *
- * @property workoutId Unique, auto-incrementing workout id
- * @property workoutName Name of the workout
- * @property workoutLength Length of the workout in seconds
+ * @property id Unique, auto-incrementing workout id
+ * @property name Name of the workout
+ * @property length Length of the workout in minutes
+ * @property isFavorite Favorite flag
  */
 @Entity
 data class Workout(
-    @PrimaryKey(autoGenerate=true) val workoutId: Int?,
-    @ColumnInfo(name="w_name") val workoutName: String,
-    @ColumnInfo(name="w_length") val workoutLength: Int
+    @PrimaryKey(autoGenerate=true) val id: Int?,
+    @ColumnInfo(name="w_name") val name: String,
+    @ColumnInfo(name="w_length") val length: Double,
+    @ColumnInfo(name="w_is_favorite") val isFavorite: Boolean
 ): Serializable
