@@ -29,6 +29,7 @@ class IntervalListFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_interval_list, container, false)
         initRecyclerView(rootView.intervalList)
 
+        // TODO: Doesn't seem to work.
         requireActivity().title = args.workout.name
 
         rootView.addInterval.setOnClickListener {
