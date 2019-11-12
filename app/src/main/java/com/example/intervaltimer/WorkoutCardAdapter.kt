@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.Workout
+import kotlinx.android.synthetic.main.workout_card.view.*
 
 /**
  * Adapter class for the Workout recycler view.
@@ -84,6 +85,20 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             holder.workoutView.setOnClickListener {
                 // TODO: There is a Room workout, and then a second Workout class. Combine the two.
                 findNavController(fragment!!).navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(Workout(0, workout.name, workout.length, false)));
+            }
+
+            val favoriteButton = holder.workoutView.favoriteButton
+
+            favoriteButton.setOnClickListener {
+
+                // Flip value
+                workout.isFavorite = !workout.isFavorite
+
+                if(workout.isFavorite) {
+                    favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
+                } else {
+                    favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
+                }
             }
         }
         else {
