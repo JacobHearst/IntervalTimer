@@ -11,6 +11,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.room.Workout
 import kotlinx.android.synthetic.main.fragment_landing.view.*
 import android.content.Intent
 
@@ -49,7 +50,8 @@ class LandingFragment : Fragment() {
             createNotification()
         }
 
-        val workouts = listOf<Workout>(Workout(1,"Workout 1", 0.4, false),
+        val workouts = listOf(
+            Workout(1,"Workout 1", 0.4, false),
                                        Workout(2,"Workout 2", 1.1, true),
                                        Workout(3, "Back Workout", 16.8, true) )
 

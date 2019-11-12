@@ -30,7 +30,7 @@ class IntervalListFragment : Fragment() {
         initRecyclerView(rootView.intervalList)
 
         // TODO: Doesn't seem to work.
-        requireActivity().title = args.workout.workoutName
+        requireActivity().title = args.workout.name
 
         rootView.addInterval.setOnClickListener {
             // TODO: Implement addition of new intervals
@@ -57,7 +57,7 @@ class IntervalListFragment : Fragment() {
         val viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
 
         // Populate the RecyclerView
-        viewModel.getIntervalsByWorkout(args.workout.workoutId!!).observe(this,
+        viewModel.getIntervalsByWorkout(args.workout.id!!).observe(this,
             Observer<List<Interval>> { intervals ->
                 intervalAdapter.setIntervals(intervals)
             }
