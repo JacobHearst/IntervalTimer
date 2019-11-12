@@ -83,7 +83,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
 
             holder.workoutView.setOnClickListener {
                 // TODO: There is a Room workout, and then a second Workout class. Combine the two.
-                findNavController(fragment!!).navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(com.example.room.Workout(0, workout.name, workout.time.toInt())));
+                findNavController(fragment!!).navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(Workout(0, workout.name, workout.length, false)));
             }
         }
         else {
