@@ -17,6 +17,8 @@ import androidx.lifecycle.Observer
  * Adapter class for the Workout recycler view.
  *
  * @property workouts List of workouts to display
+ * @property fragment The fragment that this adapter belongs to
+ * @property viewModel View Model for inserting into the database
  */
 class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolder>() {
 
