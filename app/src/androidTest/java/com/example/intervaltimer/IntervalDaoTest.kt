@@ -55,10 +55,10 @@ class IntervalDaoTest {
         mockIntervalDao = mockDatabase.intervalDao()
 
         val mockWorkouts = arrayOf(
-            Workout(1, "Workout 1", 300),
-            Workout(2, "Workout 2", 450),
-            Workout(3, "Workout 3", 60),
-            Workout(4, "Workout 4", 25)
+            Workout(1, "Workout 1", 300, false),
+            Workout(2, "Workout 2", 450, true),
+            Workout(3, "Workout 3", 60, false),
+            Workout(4, "Workout 4", 25, true)
         )
         mockDatabase.workoutDao().insert(*mockWorkouts)
     }
@@ -82,7 +82,9 @@ class IntervalDaoTest {
             Interval.IntervalType.ACTIVE.value,
             300,
             null,
-            1
+            "0000",
+            0,
+            123
         )
 
         mockIntervalDao.insert(interval)
@@ -103,7 +105,9 @@ class IntervalDaoTest {
             Interval.IntervalType.ACTIVE.value,
             300,
             null,
-            1
+            "000",
+            0,
+            123
         )
 
         val interval2 = Interval(
@@ -112,7 +116,9 @@ class IntervalDaoTest {
             Interval.IntervalType.REST.value,
             1000000,
             null,
-            1
+            "000",
+            1,
+            345
         )
 
         val interval3 = Interval(
@@ -121,7 +127,9 @@ class IntervalDaoTest {
             Interval.IntervalType.ACTIVE.value,
             null,
             20,
-            2
+            "002",
+            2,
+            453
         )
         mockIntervalDao.insert(interval1, interval2, interval3)
 
@@ -142,7 +150,9 @@ class IntervalDaoTest {
             Interval.IntervalType.ACTIVE.value,
             300,
             null,
-            1
+            "0005",
+            3,
+            864
         )
         mockIntervalDao.insert(interval)
 
@@ -153,13 +163,15 @@ class IntervalDaoTest {
             Interval.IntervalType.REST.value,
             null,
             30,
-            1
+            "304",
+            4,
+            9382
         )
 
         mockIntervalDao.getByWorkout(1).observeOnce {
-            assert(it[0].intervalName == updatedInterval.intervalName)
-            assert(it[0].intervalTime == updatedInterval.intervalTime)
-            assert(it[0].intervalReps == updatedInterval.intervalReps)
+            assert(it[0].name == updatedInterval.name)
+            assert(it[0].time == updatedInterval.time)
+            assert(it[0].reps == updatedInterval.reps)
         }
     }
 
@@ -175,7 +187,9 @@ class IntervalDaoTest {
             Interval.IntervalType.ACTIVE.value,
             300,
             null,
-            1
+            "abc",
+            0,
+            3222
         )
         mockIntervalDao.insert(interval)
 
