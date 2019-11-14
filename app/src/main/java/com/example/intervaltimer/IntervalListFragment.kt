@@ -6,13 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.Interval
-import com.example.viewmodel.IntervalViewModel
 import kotlinx.android.synthetic.main.fragment_interval_list.view.*
 
 /**
@@ -29,8 +26,8 @@ class IntervalListFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_interval_list, container, false)
         initRecyclerView(rootView.intervalList)
 
-        // TODO: Doesn't seem to work.
-        requireActivity().title = args.workout.name
+        rootView.intervalViewWorkoutName.text = args.workout.name
+        rootView.intervalViewTotalTime.text = Util.getDurationLabel(args.workout.length)
 
         rootView.addInterval.setOnClickListener {
             // TODO: Implement addition of new intervals
@@ -54,14 +51,24 @@ class IntervalListFragment : Fragment() {
             adapter = intervalAdapter
         }
 
-        val viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
-
-        // Populate the RecyclerView
-        viewModel.getIntervalsByWorkout(args.workout.id!!).observe(this,
-            Observer<List<Interval>> { intervals ->
-                intervalAdapter.setIntervals(intervals)
-            }
+        val intervals = listOf(
+            Interval(1, "6-inch lift", Interval.IntervalType.ACTIVE.value, 30, null, 1),
+            Interval(2, "Small flutter kicks", Interval.IntervalType.ACTIVE.value, 30, null, 1),
+            Interval(3, "Big flutter kicks", Interval.IntervalType.ACTIVE.value, 30, null, 1),
+            Interval(4, "Twists", Interval.IntervalType.ACTIVE.value, 30, null, 1),
+            Interval(5, "Waves", Interval.IntervalType.ACTIVE.value, 30, null, 1)
         )
+
+        intervalAdapter.setIntervals(intervals)
+
+//        val viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
+//
+//        // Populate the RecyclerView
+//        viewModel.getIntervalsByWorkout(args.workout.id!!).observe(this,
+//            Observer<List<Interval>> { intervals ->
+//                intervalAdapter.setIntervals(intervals)
+//            }
+//        )
     }
 
 

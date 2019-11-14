@@ -8,20 +8,20 @@ import androidx.room.PrimaryKey
 /**
  * [Entity] data class representing the Interval table in the app database
  *
- * @property intervalId Unique, auto-incrementing interval id
- * @property intervalName Name of the interval
- * @property intervalType Type of the interval (reset or active)
- * @property intervalTime Length of interval in seconds
- * @property intervalReps Length of interval in reps
+ * @property id Unique, auto-incrementing interval id
+ * @property name Name of the interval
+ * @property type Type of the interval (reset or active)
+ * @property time Length of interval in seconds
+ * @property reps Length of interval in reps
  * @property workoutId Id of the associated [Workout]
  */
 @Entity
 data class Interval(
-    @PrimaryKey(autoGenerate=true) val intervalId: Int?,
-    @ColumnInfo(name="i_name") val intervalName: String,
-    @ColumnInfo(name="i_type") val intervalType: String,
-    @ColumnInfo(name="i_time") val intervalTime: Int?,
-    @ColumnInfo(name="i_reps") val intervalReps: Int?,
+    @PrimaryKey(autoGenerate=true) val id: Int?,
+    @ColumnInfo(name="i_name") val name: String,
+    @ColumnInfo(name="i_type") val type: String,
+    @ColumnInfo(name="i_time") val time: Int?,
+    @ColumnInfo(name="i_reps") val reps: Int?,
 
     @ForeignKey(
         entity = Workout::class,
@@ -35,25 +35,4 @@ data class Interval(
      * Enum representing the two types of intervals
      */
     enum class IntervalType(val value: String){ REST("REST"), ACTIVE("ACTIVE") }
-
-    /**
-     * Determine whether to display the interval duration as a time or
-     * as the number of reps. If displaying as time, ensure that the time
-     * is properly formatted
-     *
-     * @return String representation of the duration of the interval
-     */
-    fun getDurationLabel(): String {
-        return when {
-            this.intervalTime != null -> {
-                val minutes: Int = this.intervalTime / 60
-                val seconds = this.intervalTime % 60
-                // Add a 0 in front of the seconds if it's < 10
-                // Turns this: 1:3 to this: 1:03
-                "$minutes:${if(seconds < 10) "0" else ""}$seconds"
-            }
-            this.intervalReps != null -> "${this.intervalReps} reps"
-            else -> "Error"
-        }
-    }
 }

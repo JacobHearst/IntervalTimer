@@ -3,6 +3,7 @@ package com.example.intervaltimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.Interval
@@ -57,11 +58,17 @@ class IntervalAdapter : RecyclerView.Adapter<IntervalAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val intervalName = holder.view.findViewById<TextView>(R.id.intervalName)
         val intervalTime = holder.view.findViewById<TextView>(R.id.intervalTime)
+        val editButton = holder.view.findViewById<ImageButton>(R.id.editButton)
 
         if (intervals != null) {
             val interval = this.intervals!![position]
-            intervalName.text = interval.intervalName
-            intervalTime.text = interval.getDurationLabel()
+            intervalName.text = interval.name
+            intervalTime.text = interval.reps?.toString() ?: Util.getDurationLabel(interval.time!!)
+
+
+            editButton.setOnClickListener {
+                // TODO: Link to Rylee's modal
+            }
         }
     }
 

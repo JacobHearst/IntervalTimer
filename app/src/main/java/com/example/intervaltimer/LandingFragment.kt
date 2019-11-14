@@ -1,6 +1,7 @@
 package com.example.intervaltimer
 
 import android.app.PendingIntent
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,11 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.Workout
 import kotlinx.android.synthetic.main.fragment_landing.view.*
-import android.content.Intent
 
 /**
  * The home screen fragment for the app. This fragment shows the user all available workouts,
@@ -51,9 +52,10 @@ class LandingFragment : Fragment() {
         }
 
         val workouts = listOf(
-            Workout(1,"Workout 1", 0.4, false),
-                                       Workout(2,"Workout 2", 1.1, true),
-                                       Workout(3, "Back Workout", 16.8, true) )
+            Workout(1,"Workout 1", 60, false),
+            Workout(2,"Workout 2", 100, true),
+            Workout(3, "Back Workout", 160, true)
+        )
 
         recyclerLayout = LinearLayoutManager(this.context)
         recyclerAdapter = WorkoutCardAdapter(workouts, this)
@@ -62,6 +64,8 @@ class LandingFragment : Fragment() {
             layoutManager = recyclerLayout
             adapter = recyclerAdapter
         }
+
+        findNavController().navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(workouts[0]))
 
         return rootView
     }
