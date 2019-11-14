@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.room.Workout
 import kotlinx.android.synthetic.main.fragment_landing.view.*
 import android.content.Intent
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.example.viewmodel.WorkoutViewModel
 
 /**
  * The home screen fragment for the app. This fragment shows the user all available workouts,
@@ -50,13 +53,17 @@ class LandingFragment : Fragment() {
             createNotification()
         }
 
-        val workouts = listOf(
-            Workout(1,"Workout 1", 0.4, false),
-                                       Workout(2,"Workout 2", 1.1, true),
-                                       Workout(3, "Back Workout", 16.8, true) )
+        val viewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
 
         recyclerLayout = LinearLayoutManager(this.context)
-        recyclerAdapter = WorkoutCardAdapter(workouts, this)
+        recyclerAdapter = WorkoutCardAdapter(this)
+
+        // Populate the RecyclerView
+        viewModel.getAllWorkouts().observe(this,
+            Observer<List<Workout>> { workouts ->
+                recyclerAdapter?.setWorkouts(workouts)
+            }
+        )
 
         rootView.findViewById<RecyclerView>(R.id.cardRecyclerView).apply {
             layoutManager = recyclerLayout

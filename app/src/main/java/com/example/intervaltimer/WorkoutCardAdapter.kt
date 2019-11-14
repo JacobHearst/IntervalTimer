@@ -5,10 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.Workout
+import com.example.viewmodel.WorkoutViewModel
 import kotlinx.android.synthetic.main.workout_card.view.*
+import androidx.lifecycle.Observer
 
 /**
  * Adapter class for the Workout recycler view.
@@ -19,10 +22,11 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
 
     private var workouts: List<Workout>? = null
     private var fragment: Fragment? = null
+    private var viewModel: WorkoutViewModel? = null
 
-    constructor(workouts: List<Workout>, fragment: Fragment) : this(){
-        this.workouts = workouts
+    constructor(fragment: Fragment) : this() {
         this.fragment = fragment
+        this.viewModel = ViewModelProviders.of(fragment).get(WorkoutViewModel::class.java)
     }
 
     /**
@@ -94,11 +98,21 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
                 // Flip value
                 workout.isFavorite = !workout.isFavorite
 
+                viewModel?.updateWorkout(workout)
+
                 if(workout.isFavorite) {
                     favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
                 } else {
                     favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
                 }
+
+                println(viewModel?.getAllWorkouts())
+            }
+
+            if(workout.isFavorite) {
+                favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
+            } else {
+                favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
             }
         }
         else {
