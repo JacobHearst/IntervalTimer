@@ -55,8 +55,8 @@ class IntervalViewModel(app: Application): AndroidViewModel(app) {
      *
      * @param interval Updated [Interval] object
      */
-    fun updateInterval(interval: Interval) {
-        AsyncIntervalUpdate(intervalDao).execute(interval)
+    fun updateInterval(vararg interval: Interval) {
+        AsyncIntervalUpdate(intervalDao).execute(*interval)
     }
 
     /**
@@ -66,8 +66,7 @@ class IntervalViewModel(app: Application): AndroidViewModel(app) {
      */
     class AsyncIntervalUpdate(private val intervalDao: IntervalDao): AsyncTask<Interval, Void, Unit>() {
         override fun doInBackground(vararg interval: Interval) {
-            // This should only ever receive a single interval
-            intervalDao.update(interval[0])
+            intervalDao.update(*interval)
         }
     }
 

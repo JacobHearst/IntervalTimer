@@ -13,15 +13,17 @@ import androidx.room.PrimaryKey
  * @property intervalType Type of the interval (reset or active)
  * @property intervalTime Length of interval in seconds
  * @property intervalReps Length of interval in reps
+ * @property index The index of the interval in the workout
  * @property workoutId Id of the associated [Workout]
  */
 @Entity
 data class Interval(
     @PrimaryKey(autoGenerate=true) val intervalId: Int?,
-    @ColumnInfo(name="i_name") val intervalName: String,
-    @ColumnInfo(name="i_type") val intervalType: String,
-    @ColumnInfo(name="i_time") val intervalTime: Int?,
-    @ColumnInfo(name="i_reps") val intervalReps: Int?,
+    @ColumnInfo(name="i_name") var intervalName: String,
+    @ColumnInfo(name="i_type") var intervalType: String,
+    @ColumnInfo(name="i_time") var intervalTime: Int?,
+    @ColumnInfo(name="i_reps") var intervalReps: Int?,
+    @ColumnInfo(name="i_index") var index: Int?,
 
     @ForeignKey(
         entity = Workout::class,
@@ -46,8 +48,8 @@ data class Interval(
     fun getDurationLabel(): String {
         return when {
             this.intervalTime != null -> {
-                val minutes: Int = this.intervalTime / 60
-                val seconds = this.intervalTime % 60
+                val minutes: Int = this.intervalTime!! / 60
+                val seconds = this.intervalTime!! % 60
                 // Add a 0 in front of the seconds if it's < 10
                 // Turns this: 1:3 to this: 1:03
                 "$minutes:${if(seconds < 10) "0" else ""}$seconds"

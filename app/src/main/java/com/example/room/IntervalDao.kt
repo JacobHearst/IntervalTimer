@@ -31,7 +31,7 @@ interface IntervalDao {
      * @param interval Updated [Interval] object
      */
     @Update
-    fun update(interval: Interval)
+    fun update(vararg interval: Interval)
 
     /**
      * Delete an interval from the table
