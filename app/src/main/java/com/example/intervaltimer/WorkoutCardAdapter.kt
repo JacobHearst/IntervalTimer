@@ -76,7 +76,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
         if(workouts != null) {
 
             // Get a workout from the list. If it doesn't exist, create a blank workout
-            val workout = workouts?.get(position) ?: Workout(0,"", 0.0, false);
+            val workout = workouts?.get(position) ?: Workout(0,"", 0, false)
 
             workoutName.text = workout.name
             workoutTime.text = workout.length.toString() + " minutes"
