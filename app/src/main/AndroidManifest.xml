@@ -24,6 +24,8 @@
             </intent-filter>
 
         </activity>
+
+        <receiver android:name=".NotificationButtonReceiver" />
     </application>
 
 </manifest>
