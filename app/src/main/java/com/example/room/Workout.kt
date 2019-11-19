@@ -17,6 +17,6 @@ import java.io.Serializable
 data class Workout(
     @PrimaryKey(autoGenerate=true) val id: Int?,
     @ColumnInfo(name="w_name") var name: String,
-    @ColumnInfo(name="w_length") var length: Double,
+    @ColumnInfo(name="w_length") var length: Int,
     @ColumnInfo(name="w_is_favorite") var isFavorite: Boolean
 ): Serializable

@@ -8,20 +8,20 @@ import androidx.room.PrimaryKey
 /**
  * [Entity] data class representing the Interval table in the app database
  *
- * @property intervalId Unique, auto-incrementing interval id
- * @property intervalName Name of the interval
- * @property intervalType Type of the interval (reset or active)
- * @property intervalTime Length of interval in seconds
- * @property intervalReps Length of interval in reps
+ * @property id Unique, auto-incrementing interval id
+ * @property name Name of the interval
+ * @property type Type of the interval (reset or active)
+ * @property time Length of interval in seconds
+ * @property reps Length of interval in reps
  * @property workoutId Id of the associated [Workout]
  */
 @Entity
 data class Interval(
-    @PrimaryKey(autoGenerate=true) val intervalId: Int?,
-    @ColumnInfo(name="i_name") var intervalName: String,
-    @ColumnInfo(name="i_type") var intervalType: String,
-    @ColumnInfo(name="i_time") var intervalTime: Int?,
-    @ColumnInfo(name="i_reps") var intervalReps: Int?,
+    @PrimaryKey(autoGenerate=true) val id: Int?,
+    @ColumnInfo(name="i_name") var name: String,
+    @ColumnInfo(name="i_type") var type: String,
+    @ColumnInfo(name="i_time") var time: Int?,
+    @ColumnInfo(name="i_reps") var reps: Int?,
 
     @ForeignKey(
         entity = Workout::class,
@@ -35,7 +35,6 @@ data class Interval(
      * Enum representing the two types of intervals
      */
     enum class IntervalType(val value: String){ REST("REST"), ACTIVE("ACTIVE") }
-
     /**
      * Determine whether to display the interval duration as a time or
      * as the number of reps. If displaying as time, ensure that the time
