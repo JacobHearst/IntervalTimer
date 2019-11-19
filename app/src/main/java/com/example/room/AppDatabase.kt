@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
  * Database for storing workouts and intervals
  *
  */
-@Database(entities = [Workout::class, Interval::class], version = 2, exportSchema = false)
+@Database(entities = [Workout::class, Interval::class], version = 3, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun workoutDao(): WorkoutDao
     abstract fun intervalDao(): IntervalDao

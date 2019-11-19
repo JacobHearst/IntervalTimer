@@ -13,15 +13,17 @@ import androidx.room.PrimaryKey
  * @property type Type of the interval (reset or active)
  * @property time Length of interval in seconds
  * @property reps Length of interval in reps
+ * @property index The index of the interval in the workout
  * @property workoutId Id of the associated [Workout]
  */
 @Entity
 data class Interval(
     @PrimaryKey(autoGenerate=true) val id: Int?,
-    @ColumnInfo(name="i_name") val name: String,
-    @ColumnInfo(name="i_type") val type: String,
-    @ColumnInfo(name="i_time") val time: Int?,
-    @ColumnInfo(name="i_reps") val reps: Int?,
+    @ColumnInfo(name="i_name") var name: String,
+    @ColumnInfo(name="i_type") var type: String,
+    @ColumnInfo(name="i_time") var time: Int?,
+    @ColumnInfo(name="i_reps") var reps: Int?,
+    @ColumnInfo(name="i_index") var index: Int,
 
     @ForeignKey(
         entity = Workout::class,
