@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.Workout
 import kotlinx.android.synthetic.main.fragment_landing.view.*
-import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.viewmodel.WorkoutViewModel
@@ -72,7 +71,7 @@ class LandingFragment : Fragment() {
             adapter = recyclerAdapter
         }
 
-        findNavController().navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(workouts[0]))
+        //findNavController().navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(workouts[0]))
 
         return rootView
     }

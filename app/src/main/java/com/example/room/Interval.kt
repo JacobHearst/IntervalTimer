@@ -47,7 +47,7 @@ data class Interval(
         // I changed intervalTime to be a var.
         // This caused the compiler to throw an error about the variable possibly changing.
         // So, this should fix that issue.
-        val time = this.intervalTime;
+        val time = this.time;
 
         return when {
             time != null -> {
@@ -57,7 +57,7 @@ data class Interval(
                 // Turns this: 1:3 to this: 1:03
                 "$minutes:${if(seconds < 10) "0" else ""}$seconds"
             }
-            this.intervalReps != null -> "${this.intervalReps} reps"
+            this.reps != null -> "${this.reps} reps"
             else -> "Error"
         }
     }
