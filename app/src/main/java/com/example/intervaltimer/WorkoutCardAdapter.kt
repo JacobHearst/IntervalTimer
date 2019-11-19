@@ -5,23 +5,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.Workout
+import com.example.viewmodel.WorkoutViewModel
+import kotlinx.android.synthetic.main.workout_card.view.*
+import androidx.lifecycle.Observer
 
 /**
  * Adapter class for the Workout recycler view.
  *
  * @property workouts List of workouts to display
+ * @property fragment The fragment that this adapter belongs to
+ * @property viewModel View Model for inserting into the database
  */
 class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolder>() {
 
     private var workouts: List<Workout>? = null
     private var fragment: Fragment? = null
+    private var viewModel: WorkoutViewModel? = null
 
-    constructor(workouts: List<Workout>, fragment: Fragment) : this(){
-        this.workouts = workouts
+    constructor(fragment: Fragment) : this() {
         this.fragment = fragment
+        this.viewModel = ViewModelProviders.of(fragment).get(WorkoutViewModel::class.java)
     }
 
     /**
@@ -84,6 +91,30 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             holder.workoutView.setOnClickListener {
                 // TODO: There is a Room workout, and then a second Workout class. Combine the two.
                 findNavController(fragment!!).navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(Workout(0, workout.name, workout.length, false)));
+            }
+
+            val favoriteButton = holder.workoutView.favoriteButton
+
+            favoriteButton.setOnClickListener {
+
+                // Flip value
+                workout.isFavorite = !workout.isFavorite
+
+                viewModel?.updateWorkout(workout)
+
+                if(workout.isFavorite) {
+                    favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
+                } else {
+                    favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
+                }
+
+                println(viewModel?.getAllWorkouts())
+            }
+
+            if(workout.isFavorite) {
+                favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
+            } else {
+                favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
             }
         }
         else {
