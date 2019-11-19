@@ -88,6 +88,10 @@ class IntervalListFragment : Fragment() {
             // TODO: Implement addition of new intervals
         }
 
+        rootView.startWorkout.setOnClickListener {
+            // TODO: Connect to timer screen
+        }
+
         return rootView
     }
 
