@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.Workout
@@ -64,8 +63,6 @@ class LandingFragment : Fragment() {
             layoutManager = recyclerLayout
             adapter = recyclerAdapter
         }
-
-        findNavController().navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(workouts[0]))
 
         return rootView
     }
