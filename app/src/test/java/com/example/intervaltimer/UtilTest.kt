@@ -21,7 +21,7 @@ class UtilTest {
             DurationTestValue(10, "0:10"),
             DurationTestValue(9, "0:09"),
             DurationTestValue(3, "0:03"),
-            DurationTestValue(4588, "76:28")
+            DurationTestValue(4588, "1:16:28")
         )
 
         testCases.forEach {

@@ -86,7 +86,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             val workout = workouts?.get(position) ?: Workout(0,"", 0, false)
 
             workoutName.text = workout.name
-            workoutTime.text = workout.length.toString() + " minutes"
+            workoutTime.text = Util.getDurationLabel(workout.length)
 
             holder.workoutView.setOnClickListener {
                 // TODO: There is a Room workout, and then a second Workout class. Combine the two.
