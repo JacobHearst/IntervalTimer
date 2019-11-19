@@ -16,12 +16,14 @@ class UtilTest {
 
         val testCases = arrayOf(
             DurationTestValue(300, "5:00"),
+            DurationTestValue(1201, "20:01"),
             DurationTestValue(0, "0:00"),
             DurationTestValue(165, "2:45"),
             DurationTestValue(10, "0:10"),
             DurationTestValue(9, "0:09"),
             DurationTestValue(3, "0:03"),
-            DurationTestValue(4588, "76:28")
+            DurationTestValue(4588, "1:16:28"),
+            DurationTestValue(3988, "1:06:28")
         )
 
         testCases.forEach {
