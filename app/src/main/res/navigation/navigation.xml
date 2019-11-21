@@ -23,5 +23,17 @@
         <argument
             android:name="workout"
             app:argType="com.example.room.Workout" />
+        <action
+            android:id="@+id/action_intervalListFragment_to_timerFragment"
+            app:destination="@id/timerFragment"
+            app:popUpTo="@+id/intervalListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timerFragment"
+        android:name="com.example.intervaltimer.TimerFragment"
+        android:label="Workout" >
+        <action
+            android:id="@+id/action_timerFragment_to_intervalListFragment"
+            app:destination="@id/intervalListFragment" />
     </fragment>
 </navigation>

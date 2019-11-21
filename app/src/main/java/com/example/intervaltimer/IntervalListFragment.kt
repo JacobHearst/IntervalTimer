@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.DOWN
@@ -109,6 +110,7 @@ class IntervalListFragment : Fragment() {
         }
 
         rootView.startWorkout.setOnClickListener {
+            findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerFragment())
             // TODO: Connect to timer screen
         }
 
