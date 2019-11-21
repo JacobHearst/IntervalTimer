@@ -15,8 +15,14 @@ import com.example.intervaltimer.Util
  *
  * @property intervals Copy of intervals list
  */
-class IntervalCardAdapter : RecyclerView.Adapter<IntervalCardAdapter.ViewHolder>() {
+class IntervalCardAdapter(listener: OnEditIntervalClickedListener) :
+    RecyclerView.Adapter<IntervalCardAdapter.ViewHolder>() {
+    interface OnEditIntervalClickedListener {
+        fun onEditClicked(interval: Interval)
+    }
+
     private var intervals: MutableList<Interval>? = null
+    private var editIntervalListener: OnEditIntervalClickedListener = listener
 
     var wasSwiped = false
 
@@ -73,7 +79,7 @@ class IntervalCardAdapter : RecyclerView.Adapter<IntervalCardAdapter.ViewHolder>
 
 
             editButton.setOnClickListener {
-                // TODO: Link to Rylee's modal
+                editIntervalListener.onEditClicked(interval)
             }
         }
     }
