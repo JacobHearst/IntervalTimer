@@ -67,7 +67,7 @@ class WorkoutDaoTest {
      */
     @Test
     fun singleInsert() {
-        val workout = Workout(null, "Test workout", 300)
+        val workout = Workout(null, "Test workout", 300, false)
         mockWorkoutDao.insert(workout)
 
         mockWorkoutDao.getAll().observeOnce {
@@ -81,10 +81,10 @@ class WorkoutDaoTest {
     @Test
     fun multipleInsert() {
         val workouts = arrayOf(
-            Workout(null, "Test workout", 300),
-            Workout(null, "Test workout 2", 450),
-            Workout(null, "Test workout 3", 60),
-            Workout(null, "Test workout 4", 25)
+            Workout(null, "Test workout", 300, false),
+            Workout(null, "Test workout 2", 450, true),
+            Workout(null, "Test workout 3", 60, false),
+            Workout(null, "Test workout 4", 25, true)
         )
         mockWorkoutDao.insert(*workouts)
 
@@ -99,15 +99,15 @@ class WorkoutDaoTest {
     @Test
     fun update() {
         // Insert a workout so we have something to update
-        val workout = Workout(null, "Test workout", 300)
+        val workout = Workout(null, "Test workout", 300, false)
         mockWorkoutDao.insert(workout)
 
         // We know that the id is 1 because it's the first element inserted in the database
-        val updatedWorkout = Workout(1, "Updated workout", 400)
+        val updatedWorkout = Workout(1, "Updated workout", 400, false)
         mockWorkoutDao.update(updatedWorkout)
 
         mockWorkoutDao.getAll().observeOnce {
-            assert(it[0].workoutName == updatedWorkout.workoutName)
+            assert(it[0].name == updatedWorkout.name)
         }
     }
 
@@ -117,7 +117,7 @@ class WorkoutDaoTest {
     @Test
     fun delete() {
         // Insert a workout so we have something to delete
-        val workout = Workout(null, "Test workout", 300)
+        val workout = Workout(null, "Test workout", 300, false)
         mockWorkoutDao.insert(workout)
 
         mockWorkoutDao.delete(workout)

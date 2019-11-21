@@ -6,10 +6,8 @@ class Util {
             val hours: Int = (length / 3600) % 60
             val minutes: Int = (length / 60) % 60
             val seconds = length % 60
-            // Add a 0 in front of the seconds if it's < 10
-            // Turns this: 1:3 to this: 1:0
 
-            var returnString = StringBuilder()
+            val returnString = StringBuilder()
 
             if(hours > 0) {
                 returnString.append("${hours}:")

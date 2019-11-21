@@ -37,9 +37,9 @@
 
             <ImageView
                 android:id="@+id/stopwatchView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="12dp"
                 app:layout_constraintBottom_toBottomOf="@+id/workoutTimeText"
                 app:layout_constraintEnd_toStartOf="@+id/workoutTimeText"
                 app:layout_constraintTop_toTopOf="@+id/workoutTimeText"
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="10:05"
                 android:textAlignment="center"

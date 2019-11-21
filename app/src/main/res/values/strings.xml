@@ -4,9 +4,22 @@
     <string name="notification_rewind_action">REWIND</string>
     <string name="notification_pause_action">PAUSE</string>
     <string name="notification_fast_forward_action">FAST FORWARD</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_interval_title">Add Interval</string>
+    <string name="add_interval_add_dialog_text">Add</string>
+    <string name="add_interval_cancel_dialog_text">Cancel</string>
+    <string name="add_interval_reps_toggle_text">Reps</string>
+    <string name="add_interval_timer_toggle_text">Timer</string>
+    <string name="add_interval_timers_reps_toggle_button">RepsTimerToggleButton</string>
+    <string name="add_interval_name_hint_text">Interval Name</string>
+    <string name="add_interval_active_text">Active</string>
+    <string name="add_interval_resting_text">Resting</string>
+    <string name="interval_second_unit">Sec</string>
+    <string name="interval_unit_minutes">Min</string>
+    <string name="add_interval_checkbox_text">Custom Interval Color</string>
+    <string name="color_picker_box_desc">Interval Color Picker</string>
+    <string name="interval_name_input_desc">Input for the Interval name</string>
+    <string name="interval_timer_unit_toggle_button_label">Toggle Button for Timer Units</string>
     <string name="title_activity_timer">TimerActivity</string>
     <string name="place_holder_title">Workout Name</string>
     <string name="end_workout">End Workout</string>

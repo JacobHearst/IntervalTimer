@@ -79,13 +79,33 @@ class IntervalListFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_interval_list, container, false)
         viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
-        initRecyclerView(rootView.intervalList)
+        val recyclerView = initRecyclerView(rootView.intervalList)
+
+        /*
+        viewModel.insertInterval(Interval(null, "Warmup", "Active", 300, null, "Red", 0, 2))
+        viewModel.insertInterval(Interval(null, "Jog", "Active", 330, null, "Red", 0, 2))
+        viewModel.insertInterval(Interval(null, "Run", "Active", 120, null, "Red", 0, 2))
+        viewModel.insertInterval(Interval(null, "Sprint", "Active", 140, null, "Red", 0, 2))
+        viewModel.insertInterval(Interval(null, "Hurdles", "Active", 340, null, "Red", 0, 2))
+        viewModel.insertInterval(Interval(null, "Rest", "Active", 600, null, "Red", 0, 2))
+        viewModel.insertInterval(Interval(null, "Sprints", "Active", 230, null, "Red", 0, 2))
+        viewModel.insertInterval(Interval(null, "Cooldown", "Active", 800, null, "Red", 0, 2))
+        */
 
         rootView.intervalViewWorkoutName.text = args.workout.name
         rootView.intervalViewTotalTime.text = Util.getDurationLabel(args.workout.length)
 
+        /**
+         * Upon click, open Add Interval Modal
+         */
         rootView.addInterval.setOnClickListener {
-            // TODO: Implement addition of new intervals
+            val bundle = Bundle()
+            bundle.putInt("workoutId", args.workout.id as Int)
+            bundle.putInt("newIndex", recyclerView.adapter?.itemCount as Int)
+            // Create an instance of the dialog fragment and show it
+            val dialog = AddIntervalModalFragment()
+            dialog.arguments = bundle
+            dialog.show(activity!!.supportFragmentManager, "AddIntervalModalFragment")
         }
 
         rootView.startWorkout.setOnClickListener {
@@ -100,7 +120,7 @@ class IntervalListFragment : Fragment() {
      *
      * @param recyclerView Reference to the interval list [RecyclerView]
      */
-    private fun initRecyclerView(recyclerView: RecyclerView) {
+    private fun initRecyclerView(recyclerView: RecyclerView): RecyclerView {
         val recyclerLayout = LinearLayoutManager(requireActivity().applicationContext)
         val intervalAdapter = IntervalAdapter()
 
@@ -118,6 +138,8 @@ class IntervalListFragment : Fragment() {
         )
 
         itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        return recyclerView
     }
 
     /**
