@@ -75,7 +75,6 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
      */
     override fun onBindViewHolder(holder: WorkoutHolder, position: Int) {
 
-        // TODO: Databinding
         val workoutName = holder.workoutView.findViewById<TextView>(R.id.workoutNameText)
         val workoutTime = holder.workoutView.findViewById<TextView>(R.id.workoutTimeText)
 
@@ -86,17 +85,16 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             val workout = workouts?.get(position) ?: Workout(0,"", 0, false)
 
             workoutName.text = workout.name
-            workoutTime.text = workout.length.toString() + " minutes"
+            workoutTime.text = Util.getDurationLabel(workout.length)
 
+            // When clicked, navigate to the interval view screen and pass the workout
             holder.workoutView.setOnClickListener {
-                // TODO: There is a Room workout, and then a second Workout class. Combine the two.
-                findNavController(fragment!!).navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(Workout(0, workout.name, workout.length, false)));
+                findNavController(fragment!!).navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(workout))
             }
 
             val favoriteButton = holder.workoutView.favoriteButton
 
             favoriteButton.setOnClickListener {
-
                 // Flip value
                 workout.isFavorite = !workout.isFavorite
 
@@ -107,8 +105,6 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
                 } else {
                     favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
                 }
-
-                println(viewModel?.getAllWorkouts())
             }
 
             if(workout.isFavorite) {

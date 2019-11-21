@@ -4,8 +4,6 @@
     <string name="notification_rewind_action">REWIND</string>
     <string name="notification_pause_action">PAUSE</string>
     <string name="notification_fast_forward_action">FAST FORWARD</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_interval_title">Add Interval</string>
     <string name="add_interval_add_dialog_text">Add</string>
