@@ -13,6 +13,7 @@ import androidx.room.PrimaryKey
  * @property type Type of the interval (reset or active)
  * @property time Length of interval in seconds
  * @property reps Length of interval in reps
+ * @property color C?olor of interval in HexCode
  * @property index The index of the interval in the workout
  * @property workoutId Id of the associated [Workout]
  */
@@ -23,6 +24,7 @@ data class Interval(
     @ColumnInfo(name="i_type") var type: String,
     @ColumnInfo(name="i_time") var time: Int?,
     @ColumnInfo(name="i_reps") var reps: Int?,
+    @ColumnInfo(name="i_color") var color: String,
     @ColumnInfo(name="i_index") var index: Int,
 
     @ForeignKey(

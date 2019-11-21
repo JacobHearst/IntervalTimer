@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/color_picker_box"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/color_picker_box_desc"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/show_color_picker_checkbox"
+            app:layout_constraintTop_toBottomOf="@+id/show_color_picker_checkbox" />
+
+        <EditText
+            android:id="@+id/interval_name_input"
+            android:layout_width="218dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/interval_name_input_desc"
+            android:ems="10"
+            android:hint="@string/add_interval_name_hint_text"
+            android:inputType="textPersonName"
+            app:layout_constraintBaseline_toBaselineOf="@+id/workout_type_toggle_button"
+            app:layout_constraintStart_toEndOf="@+id/workout_type_toggle_button"
+            tools:hint="null" />
+
+        <ToggleButton
+            android:id="@+id/workout_units_toggle"
+            style="@android:style/Widget.Holo.Button.Toggle"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:checked="true"
+            android:text="@string/add_interval_timers_reps_toggle_button"
+            android:textOff="@string/add_interval_reps_toggle_text"
+            android:textOn="@string/add_interval_timer_toggle_text"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/workout_type_toggle_button"
+            app:layout_constraintTop_toBottomOf="@+id/workout_type_toggle_button" />
+
+        <ToggleButton
+            android:id="@+id/workout_type_toggle_button"
+            style="@android:style/Widget.Holo.Button.Toggle"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:checked="true"
+            android:text="@string/add_interval_timers_reps_toggle_button"
+            android:textOff="@string/add_interval_resting_text"
+            android:textOn="@string/add_interval_active_text"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/reps_timer_input"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintBaseline_toBaselineOf="@+id/workout_units_toggle"
+            app:layout_constraintStart_toEndOf="@+id/workout_units_toggle" />
+
+        <com.skydoves.colorpickerview.ColorPickerView
+            android:id="@+id/interval_color_picker"
+            android:layout_width="225dp"
+            android:layout_height="115dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            app:alpha_flag="0.8"
+            app:alpha_selector="0.8"
+            app:layout_constraintBottom_toBottomOf="@+id/color_picker_box"
+            app:layout_constraintStart_toEndOf="@+id/color_picker_box"
+            app:layout_constraintTop_toBottomOf="@+id/show_color_picker_checkbox"
+            app:palette="@drawable/color_palette_bar"
+            app:selector="@drawable/wheel"></com.skydoves.colorpickerview.ColorPickerView>
+
+        <ToggleButton
+            android:id="@+id/timer_unit_toggle_button"
+            style="@android:style/Widget.Material.Button.Toggle"
+            android:layout_width="75dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:checked="false"
+            android:text="@string/interval_timer_unit_toggle_button_label"
+            android:textOff="@string/interval_second_unit"
+            android:textOn="@string/interval_unit_minutes"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBaseline_toBaselineOf="@+id/reps_timer_input"
+            app:layout_constraintStart_toEndOf="@+id/reps_timer_input" />
+
+        <CheckBox
+            android:id="@+id/show_color_picker_checkbox"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_interval_checkbox_text"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/workout_units_toggle"
+            app:layout_constraintTop_toBottomOf="@+id/workout_units_toggle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
