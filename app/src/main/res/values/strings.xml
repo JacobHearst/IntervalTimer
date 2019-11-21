@@ -6,7 +6,6 @@
     <string name="notification_fast_forward_action">FAST FORWARD</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_timer">TimerActivity</string>
     <string name="place_holder_title">Workout Name</string>
     <string name="end_workout">End Workout</string>
