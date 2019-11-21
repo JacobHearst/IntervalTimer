@@ -112,6 +112,30 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             } else {
                 favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
             }
+
+            val favoriteButton = holder.workoutView.favoriteButton
+
+            favoriteButton.setOnClickListener {
+
+                // Flip value
+                workout.isFavorite = !workout.isFavorite
+
+                viewModel?.updateWorkout(workout)
+
+                if(workout.isFavorite) {
+                    favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
+                } else {
+                    favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
+                }
+
+                println(viewModel?.getAllWorkouts())
+            }
+
+            if(workout.isFavorite) {
+                favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
+            } else {
+                favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
+            }
         }
         else {
 

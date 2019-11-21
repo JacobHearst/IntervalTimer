@@ -80,6 +80,7 @@ class LandingFragment : Fragment() {
             layoutManager = recyclerLayout
             adapter = recyclerAdapter
         }
+
         return rootView
     }
 
