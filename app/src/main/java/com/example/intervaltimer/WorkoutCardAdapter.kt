@@ -95,7 +95,6 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             val favoriteButton = holder.workoutView.favoriteButton
 
             favoriteButton.setOnClickListener {
-
                 // Flip value
                 workout.isFavorite = !workout.isFavorite
 

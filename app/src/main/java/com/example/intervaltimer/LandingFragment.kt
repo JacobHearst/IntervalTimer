@@ -55,6 +55,17 @@ class LandingFragment : Fragment() {
 
         val viewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
 
+        /*
+        viewModel.insertWorkout(Workout(null, "Chest", 1200, true))
+        viewModel.insertWorkout(Workout(null, "Running", 1604, false))
+        viewModel.insertWorkout(Workout(null, "Biceps", 1500, false))
+        viewModel.insertWorkout(Workout(null, "Triceps", 1130, true))
+        viewModel.insertWorkout(Workout(null, "Shoulders", 1030, false))
+        viewModel.insertWorkout(Workout(null, "Back", 2412, true))
+        viewModel.insertWorkout(Workout(null, "Running", 3000, true))
+        viewModel.insertWorkout(Workout(null, "Grip Training", 800, false))
+        */
+
         recyclerLayout = LinearLayoutManager(this.context)
         recyclerAdapter = WorkoutCardAdapter(this)
 

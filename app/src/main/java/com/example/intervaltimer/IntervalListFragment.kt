@@ -81,6 +81,14 @@ class IntervalListFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
         initRecyclerView(rootView.intervalList)
 
+        /*
+        viewModel.insertInterval(Interval(null, "Warmup", "Active", 300, null, 0, 1))
+        viewModel.insertInterval(Interval(null, "Low-Intensity", "Active", 200, null, 1, 1))
+        viewModel.insertInterval(Interval(null, "High-Intensity", "Active", 500, null, 2, 1))
+        viewModel.insertInterval(Interval(null, "Low-Intensity", "Active", 200, null, 3, 1))
+        viewModel.insertInterval(Interval(null, "Cool Down", "Active", 200, null, 4, 1))
+        */
+
         rootView.intervalViewWorkoutName.text = args.workout.name
         rootView.intervalViewTotalTime.text = Util.getDurationLabel(args.workout.length)
 
