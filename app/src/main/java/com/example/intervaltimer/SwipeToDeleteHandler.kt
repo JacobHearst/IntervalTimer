@@ -39,7 +39,7 @@ class SwipeToDeleteHandler : ItemTouchHelper.SimpleCallback {
     }
 
     private fun showUndoSnackbar(workout: Workout) {
-        var snackbar = Snackbar.make(fragment.view!!, "Workout deleted! Undo?", Snackbar.LENGTH_LONG)
+        var snackbar = Snackbar.make(fragment.view!!, "Workout deleted", Snackbar.LENGTH_LONG)
         snackbar.setAction("Undo", View.OnClickListener {
             viewModel.insertWorkout(workout)
         })
