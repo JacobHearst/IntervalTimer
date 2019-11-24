@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import kotlinx.android.synthetic.main.activity_timer.*
-import kotlin.concurrent.timer
 
 class TimerActivity : AppCompatActivity() {
 
@@ -26,7 +25,7 @@ class TimerActivity : AppCompatActivity() {
 
                 var updateStringTimer = String.format("%02d:%02d", minutes, seconds)
 
-                timertext.text = updateStringTimer
+                timerText.text = updateStringTimer
 
             }
 
@@ -54,50 +53,50 @@ class TimerActivity : AppCompatActivity() {
 
         mediaPlayer = MediaPlayer.create(this, R.raw.bellring)
 
-        workoutname.text = "Push ups" // placeholder code for setting text at startup
-        repstext.text = "# of reps 50" // placeholder code for setting text at startup
+        workoutName.text = "Push ups" // placeholder code for setting text at startup
+        repsText.text = "# of reps 50" // placeholder code for setting text at startup
 
-        timertext.text = "00:10" // placeholder code for setting text at startup
+        timerText.text = "00:10" // placeholder code for setting text at startup
 
-        playbutton.setOnClickListener{
+        playButton.setOnClickListener{
 
             if(buttonSwitch == false){
-                playbutton.setBackgroundResource(R.drawable.ic_pause_black_24dp)
+                playButton.setBackgroundResource(R.drawable.ic_pause)
                 playTimer()
                 buttonSwitch = true
             }
 
             else{
-                playbutton.setBackgroundResource(R.drawable.ic_play_arrow_black_24dp)
+                playButton.setBackgroundResource(R.drawable.ic_play)
                 pause()
                 buttonSwitch = false
             }
 
         }
 
-        forwardbutton.setOnClickListener{
+        fastForwardButton.setOnClickListener{
             mediaPlayer?.stop()
             totaltime = 70000 + 1000
-            workoutname.text = "Curls" // placeholder code for setting text when hitting forward
-            repstext.text = "# of reps 80" // placeholder code for setting text when hitting forward
-            timertext.text = "01:10" // placeholder code for setting text at startup
-            playbutton.setBackgroundResource(R.drawable.ic_play_arrow_black_24dp)
+            workoutName.text = "Curls" // placeholder code for setting text when hitting forward
+            repsText.text = "# of reps 80" // placeholder code for setting text when hitting forward
+            timerText.text = "01:10" // placeholder code for setting text at startup
+            playButton.setBackgroundResource(R.drawable.ic_play)
             pause()
             buttonSwitch = false
         }
 
-        backbutton.setOnClickListener{
+        rewindButton.setOnClickListener{
             mediaPlayer?.stop()
             totaltime = 10000 + 1000
-            workoutname.text = "Push ups" // placeholder code for setting text when hitting back
-            repstext.text = "# of reps 50" // placeholder code for setting text when hitting back
-            timertext.text = "00:10" // placeholder code for setting text at startup
-            playbutton.setBackgroundResource(R.drawable.ic_play_arrow_black_24dp)
+            workoutName.text = "Push ups" // placeholder code for setting text when hitting back
+            repsText.text = "# of reps 50" // placeholder code for setting text when hitting back
+            timerText.text = "00:10" // placeholder code for setting text at startup
+            playButton.setBackgroundResource(R.drawable.ic_play)
             pause()
             buttonSwitch = false
         }
 
-        endbutton.setOnClickListener{
+        endWorkoutButton.setOnClickListener{
             mediaPlayer?.release()
             mediaPlayer = null
         }
@@ -108,8 +107,7 @@ class TimerActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        //val navController = this.findNavController(R.id.myNavHostFragment)
-        //navController.navigate(R.id.mainFragment)
+        //findNavController().navigate()
         return false
     }
 }
