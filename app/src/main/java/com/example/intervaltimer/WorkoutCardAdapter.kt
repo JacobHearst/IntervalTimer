@@ -12,6 +12,7 @@ import com.example.room.Workout
 import com.example.viewmodel.WorkoutViewModel
 import kotlinx.android.synthetic.main.workout_card.view.*
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 
 /**
  * Adapter class for the Workout recycler view.
@@ -22,7 +23,7 @@ import androidx.lifecycle.Observer
  */
 class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolder>() {
 
-    private var workouts: List<Workout>? = null
+    private var workouts: MutableList<Workout>? = null
     private var fragment: Fragment? = null
     private var viewModel: WorkoutViewModel? = null
 
@@ -43,7 +44,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
      *
      * @param newWorkoutList List to display
      */
-    fun setWorkouts(newWorkoutList: List<Workout>) {
+    fun setWorkouts(newWorkoutList: MutableList<Workout>) {
         workouts = newWorkoutList
 
         notifyDataSetChanged()
@@ -118,5 +119,13 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             workoutName.text = "ERROR"
             workoutTime.text = "ERROR"
         }
+    }
+
+    fun getItem(position: Int) : Workout {
+        return workouts?.get(position)!!
+    }
+
+    fun deleteItem(position: Int) {
+        workouts?.removeAt(position)
     }
 }

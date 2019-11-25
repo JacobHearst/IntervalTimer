@@ -16,6 +16,7 @@ import com.example.room.Workout
 import kotlinx.android.synthetic.main.fragment_landing.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.viewmodel.WorkoutViewModel
 
 /**
@@ -47,32 +48,28 @@ class LandingFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_landing, container, false)
 
         val mFab = rootView.addWorkoutButton//rootView.findViewById<FloatingActionButton>(R.id.addWorkoutButton)
+
         mFab?.setOnClickListener {
-            Toast.makeText(this.context, "TODO: Navigate to new workout screen", Toast.LENGTH_LONG).show()
+            //Toast.makeText(this.context, "TODO: Navigate to new workout screen", Toast.LENGTH_LONG).show()
+
+            val dialog = AddWorkoutModalFragment()
+            dialog.show(activity!!.supportFragmentManager, "AddWorkoutModalFragment")
 
             createNotification()
         }
 
         val viewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
 
-        /*
-        viewModel.insertWorkout(Workout(null, "Chest", 1200, true))
-        viewModel.insertWorkout(Workout(null, "Running", 1604, false))
-        viewModel.insertWorkout(Workout(null, "Biceps", 1500, false))
-        viewModel.insertWorkout(Workout(null, "Triceps", 1130, true))
-        viewModel.insertWorkout(Workout(null, "Shoulders", 1030, false))
-        viewModel.insertWorkout(Workout(null, "Back", 2412, true))
-        viewModel.insertWorkout(Workout(null, "Running", 3000, true))
-        viewModel.insertWorkout(Workout(null, "Grip Training", 800, false))
-        */
-
         recyclerLayout = LinearLayoutManager(this.context)
         recyclerAdapter = WorkoutCardAdapter(this)
+
+        var touchHelper = ItemTouchHelper(SwipeToDeleteHandler(recyclerAdapter!!, this))
+        touchHelper.attachToRecyclerView(rootView.cardRecyclerView)
 
         // Populate the RecyclerView
         viewModel.getAllWorkouts().observe(this,
             Observer<List<Workout>> { workouts ->
-                recyclerAdapter?.setWorkouts(workouts)
+                recyclerAdapter?.setWorkouts(workouts.toMutableList())
             }
         )
 
@@ -83,8 +80,6 @@ class LandingFragment : Fragment() {
 
         return rootView
     }
-
-    // TODO: Move to timer screen
 
     /**
      * Creates a notification that holds information about the current interval along with media controls
