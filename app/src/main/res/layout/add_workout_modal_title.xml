@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:text="@string/add_interval_title"
+        android:text="@string/add_workout_title"
         android:textAllCaps="false"
         android:textColor="@color/fontPrimary"
         android:textSize="30sp"
