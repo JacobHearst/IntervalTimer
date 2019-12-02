@@ -2,22 +2,15 @@ package com.example.intervaltimer
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.intervaltimer.databinding.AddIntervalTimerModalBinding
 import com.example.intervaltimer.databinding.AddWorkoutModalBinding
-import com.example.room.Interval
+import com.example.intervaltimer.workout.WorkoutViewModel
 import com.example.room.Workout
-import com.example.viewmodel.IntervalViewModel
-import com.example.viewmodel.WorkoutViewModel
-import com.skydoves.colorpickerview.listeners.ColorListener
-import java.util.*
 
 /**
  * Add Interval Modal View Fragment
@@ -69,7 +62,7 @@ class AddWorkoutModalFragment : DialogFragment() {
     private fun addWorkout() {
         val viewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
 
-        viewModel.insertWorkout(Workout(null, binding.editText.text.toString(), 0, false))
+        viewModel.insert(Workout(null, binding.editText.text.toString(), 0, false))
     }
 
     /**
