@@ -29,4 +29,6 @@
     <string name="start">Start</string>
     <string name="workout_name_hint">Workout Name</string>
     <string name="add_workout_title">Add Workout</string>
+    <string name="edit_workout_title">Edit Workout</string>
+    <string name="edit_workout_positive_button_text">Save</string>
 </resources>

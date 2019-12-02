@@ -29,9 +29,8 @@ import com.example.viewmodel.WorkoutViewModel
  */
 class LandingFragment : Fragment() {
 
-    var recyclerLayout: LinearLayoutManager? = null
-    var recyclerAdapter: WorkoutCardAdapter? = null
-    val NOTIFICATION_ID = 0
+    private var recyclerLayout: LinearLayoutManager? = null
+    private var recyclerAdapter: WorkoutCardAdapter? = null
 
     /**
      * Called when the fragment is first initialized.
@@ -47,15 +46,11 @@ class LandingFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_landing, container, false)
 
-        val mFab = rootView.addWorkoutButton//rootView.findViewById<FloatingActionButton>(R.id.addWorkoutButton)
+        val floatingActionButton = rootView.addWorkoutButton//rootView.findViewById<FloatingActionButton>(R.id.addWorkoutButton)
 
-        mFab?.setOnClickListener {
-            //Toast.makeText(this.context, "TODO: Navigate to new workout screen", Toast.LENGTH_LONG).show()
-
+        floatingActionButton?.setOnClickListener {
             val dialog = AddWorkoutModalFragment()
             dialog.show(activity!!.supportFragmentManager, "AddWorkoutModalFragment")
-
-            createNotification()
         }
 
         val viewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
@@ -79,41 +74,6 @@ class LandingFragment : Fragment() {
         }
 
         return rootView
-    }
-
-    /**
-     * Creates a notification that holds information about the current interval along with media controls
-     */
-    private fun createNotification() {
-        val rewindIntent = Intent(this.context, NotificationButtonReceiver::class.java)
-        rewindIntent.action = getString(R.string.notification_rewind_action)
-
-        val pauseIntent = Intent(this.context, NotificationButtonReceiver::class.java)
-        pauseIntent.action = getString(R.string.notification_pause_action)
-
-        val fastForwardIntent = Intent(this.context, NotificationButtonReceiver::class.java)
-        fastForwardIntent.action = getString(R.string.notification_fast_forward_action)
-
-        val rewindPendingIntent: PendingIntent = PendingIntent.getBroadcast(this.context!!, 0, rewindIntent, 0)
-        val pausePendingIntent: PendingIntent = PendingIntent.getBroadcast(this.context!!, 1, pauseIntent, 0)
-        val fastForwardPendingIntent: PendingIntent = PendingIntent.getBroadcast(this.context!!, 2, fastForwardIntent, 0)
-
-        val builder = NotificationCompat.Builder(this.context!!, getString(R.string.notification_channel))
-            .setSmallIcon(R.drawable.ic_plus)
-            .setContentTitle("Arm Workout") // TODO: Get current workout name
-            .setContentText("Bicep Curls") // TODO: Get current interval name
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .addAction(R.drawable.ic_rewind, "Rewind", rewindPendingIntent)
-            .addAction(R.drawable.ic_pause, "Pause", pausePendingIntent)
-            .addAction(R.drawable.ic_fast_forward, "Fast Forward", fastForwardPendingIntent)
-
-
-        with(NotificationManagerCompat.from(this.context!!)) {
-
-            builder.setProgress(100, 25, false) // TODO: Get current workout (or interval) progress
-            // notificationId is a unique int for each notification that you must define
-            notify(NOTIFICATION_ID, builder.build())
-        }
     }
 
 }

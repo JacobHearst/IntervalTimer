@@ -24,11 +24,11 @@
 
             <TextView
                 android:id="@+id/workoutNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="253dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Sample Workout Name"
+                android:text="Sample Workout"
                 android:textAlignment="textStart"
                 android:textColor="@color/fontPrimary"
                 android:textSize="30sp"
@@ -49,7 +49,7 @@
                 android:id="@+id/workoutTimeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="10:05"
@@ -70,6 +70,17 @@
                 android:background="@drawable/ic_star_empty"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/editButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/ic_edit"
+                app:layout_constraintBottom_toBottomOf="@+id/favoriteButton"
+                app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                app:layout_constraintTop_toTopOf="@+id/favoriteButton" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
