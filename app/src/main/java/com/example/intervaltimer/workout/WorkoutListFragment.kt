@@ -47,8 +47,7 @@ class WorkoutListFragment : Fragment() {
         mFab?.setOnClickListener {
             //Toast.makeText(this.context, "TODO: Navigate to new workout screen", Toast.LENGTH_LONG).show()
 
-            val dialog =
-                AddWorkoutModalFragment()
+            val dialog = AddWorkoutModalFragment()
             dialog.show(activity!!.supportFragmentManager, "AddWorkoutModalFragment")
 
             createNotification()

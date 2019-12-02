@@ -64,9 +64,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutHolder {
         val view = (LayoutInflater.from(parent.context).inflate(R.layout.workout_card, parent, false))
 
-        return WorkoutHolder(
-            view
-        )
+        return WorkoutHolder(view)
     }
 
     /**
@@ -87,8 +85,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             val workout = workouts?.get(position) ?: Workout(0,"", 0, false)
 
             workoutName.text = workout.name
-            workoutTime.text =
-                Util.getDurationLabel(workout.length)
+            workoutTime.text = Util.getDurationLabel(workout.length)
 
             // When clicked, navigate to the interval view screen and pass the workout
             holder.workoutView.setOnClickListener {
@@ -124,4 +121,8 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
     }
 
     fun getItems() : List<Workout> = workouts!!.toList()
+
+    fun deleteItem(position: Int) {
+        workouts?.removeAt(position)
+    }
 }
