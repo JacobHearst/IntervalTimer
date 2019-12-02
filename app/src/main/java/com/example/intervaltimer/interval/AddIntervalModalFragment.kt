@@ -1,4 +1,4 @@
-package com.example.intervaltimer
+package com.example.intervaltimer.interval
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -10,9 +10,9 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.intervaltimer.R
 import com.example.intervaltimer.databinding.AddIntervalTimerModalBinding
 import com.example.room.Interval
-import com.example.viewmodel.IntervalViewModel
 import com.skydoves.colorpickerview.listeners.ColorListener
 import java.util.*
 
@@ -44,14 +44,17 @@ class AddIntervalModalFragment : DialogFragment() {
             // Set the properties of the dialog alert
             builder
                 ?.setCancelable(false)
-                ?.setCustomTitle(View.inflate(context, R.layout.add_interval_timer_modal_title, null))
+                ?.setCustomTitle(View.inflate(context,
+                    R.layout.add_interval_timer_modal_title, null))
                 ?.setView(binding.root)
-                ?.setPositiveButton(R.string.add_interval_add_dialog_text
+                ?.setPositiveButton(
+                    R.string.add_interval_add_dialog_text
                 ) { dialog, _ ->
                     addInterval()
                     dialog?.dismiss()
                 }
-                ?.setNegativeButton(R.string.add_interval_cancel_dialog_text
+                ?.setNegativeButton(
+                    R.string.add_interval_cancel_dialog_text
                 ) { dialog, _ ->
                     dialog?.cancel()
                 }
@@ -106,7 +109,7 @@ class AddIntervalModalFragment : DialogFragment() {
             )
         val viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
 
-        viewModel.insertInterval(intervalToAdd)
+        viewModel.insert(intervalToAdd)
     }
 
     /**
@@ -114,7 +117,8 @@ class AddIntervalModalFragment : DialogFragment() {
      */
     private fun setupDataBinding() {
         // Setup data-binding
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context!!), R.layout.add_interval_timer_modal, null, false)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context!!),
+            R.layout.add_interval_timer_modal, null, false)
         // Determine when the app allows the specification of interval units (i.e. Timer, Reps)
         binding.workoutTypeToggleButton.setOnCheckedChangeListener { compoundButton, _ ->
             // If Resting is selected, set workoutUnits to Timer and disable toggle button

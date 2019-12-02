@@ -27,4 +27,6 @@
     <string name="defalut_timer_text">00:00</string>
     <string name="more">More</string>
     <string name="start">Start</string>
+    <string name="workout_name_hint">Workout Name</string>
+    <string name="add_workout_title">Add Workout</string>
 </resources>

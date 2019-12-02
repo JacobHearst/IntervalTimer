@@ -1,4 +1,4 @@
-package com.example.intervaltimer
+package com.example.intervaltimer.workout
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.intervaltimer.R
+import com.example.intervaltimer.Util
 import com.example.room.Workout
-import com.example.viewmodel.WorkoutViewModel
 import kotlinx.android.synthetic.main.workout_card.view.*
-import androidx.lifecycle.Observer
 
 /**
  * Adapter class for the Workout recycler view.
@@ -22,7 +22,7 @@ import androidx.lifecycle.Observer
  */
 class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolder>() {
 
-    private var workouts: List<Workout>? = null
+    private var workouts: MutableList<Workout>? = null
     private var fragment: Fragment? = null
     private var viewModel: WorkoutViewModel? = null
 
@@ -41,10 +41,10 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
     /**
      * Sets the workouts to display
      *
-     * @param newWorkoutList List to display
+     * @param items List to display
      */
-    fun setWorkouts(newWorkoutList: List<Workout>) {
-        workouts = newWorkoutList
+    fun setItems(items: List<Workout>) {
+        workouts = items.toMutableList()
 
         notifyDataSetChanged()
     }
@@ -64,7 +64,9 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutHolder {
         val view = (LayoutInflater.from(parent.context).inflate(R.layout.workout_card, parent, false))
 
-        return WorkoutHolder(view)
+        return WorkoutHolder(
+            view
+        )
     }
 
     /**
@@ -85,11 +87,12 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             val workout = workouts?.get(position) ?: Workout(0,"", 0, false)
 
             workoutName.text = workout.name
-            workoutTime.text = Util.getDurationLabel(workout.length)
+            workoutTime.text =
+                Util.getDurationLabel(workout.length)
 
             // When clicked, navigate to the interval view screen and pass the workout
             holder.workoutView.setOnClickListener {
-                findNavController(fragment!!).navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(workout))
+                findNavController(fragment!!).navigate(WorkoutListFragmentDirections.actionLandingFragmentToIntervalListFragment(workout))
             }
 
             val favoriteButton = holder.workoutView.favoriteButton
@@ -98,7 +101,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
                 // Flip value
                 workout.isFavorite = !workout.isFavorite
 
-                viewModel?.updateWorkout(workout)
+                viewModel?.update(workout)
 
                 if(workout.isFavorite) {
                     favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
@@ -119,4 +122,6 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             workoutTime.text = "ERROR"
         }
     }
+
+    fun getItems() : List<Workout> = workouts!!.toList()
 }
