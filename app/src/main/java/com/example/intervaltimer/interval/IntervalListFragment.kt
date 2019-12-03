@@ -47,10 +47,11 @@ class IntervalListFragment : Fragment() {
          */
         rootView.addInterval.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt("workoutId", args.workout.id as Int)
+            bundle.putSerializable("workout", args.workout)
             bundle.putInt("newIndex", recyclerView.adapter?.itemCount as Int)
             // Create an instance of the dialog fragment and show it
             val dialog = AddIntervalModalFragment()
+            dialog.addFragmentReference(this)
             dialog.arguments = bundle
             dialog.show(activity!!.supportFragmentManager, "AddIntervalModalFragment")
         }
@@ -87,7 +88,7 @@ class IntervalListFragment : Fragment() {
         )
 
         ItemTouchHelper(
-            IntervalItemTouchCallback(intervalAdapter, this)
+            IntervalItemTouchCallback(intervalAdapter, this, args.workout)
         ).attachToRecyclerView(recyclerView)
 
         return recyclerView

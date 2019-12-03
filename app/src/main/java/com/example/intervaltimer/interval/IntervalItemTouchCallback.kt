@@ -6,14 +6,20 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
+import com.example.intervaltimer.Util
+import com.example.intervaltimer.workout.WorkoutViewModel
 import com.example.room.Interval
+import com.example.room.Workout
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_interval_list.*
 
 class IntervalItemTouchCallback(
     private var cardAdapter: IntervalCardAdapter,
-    private var fragment: Fragment
+    private var fragment: Fragment,
+    private var workout: Workout
 ) : ItemTouchHelper.SimpleCallback(UP or DOWN, LEFT) {
     private var viewModel = ViewModelProviders.of(fragment).get(IntervalViewModel::class.java)
+    private var workoutViewModel = ViewModelProviders.of(fragment).get(WorkoutViewModel::class.java)
 
     /**
      * Handle dragging and reordering
@@ -45,6 +51,8 @@ class IntervalItemTouchCallback(
         val position = viewHolder.adapterPosition
         val intervalToDelete = cardAdapter.getItems()[position]
 
+        processTimeChanges(intervalToDelete, false)
+
         cardAdapter.deleteItem(intervalToDelete)
         cardAdapter.wasSwiped = true
         showUndoSnackbar(intervalToDelete)
@@ -72,6 +80,8 @@ class IntervalItemTouchCallback(
         val snackbar = Snackbar.make(fragment.requireView(), "Interval deleted", Snackbar.LENGTH_LONG)
         snackbar.setAction("Undo") {
             cardAdapter.insertItem(interval.index, interval)
+
+            processTimeChanges(interval, true)
         }
 
         snackbar.addCallback(object: Snackbar.Callback() {
@@ -97,5 +107,20 @@ class IntervalItemTouchCallback(
             interval.index = index
             viewModel.update(interval)
         }
+    }
+
+    private fun processTimeChanges(interval: Interval, isBeingAdded: Boolean) {
+
+        // Update the time in the database
+        if(isBeingAdded) {
+            workout.length += interval.time!!
+        } else {
+            workout.length -= interval.time!!
+        }
+
+        workoutViewModel.update(workout)
+
+        // Update UI
+        fragment.intervalViewTotalTime.text = Util.getDurationLabel(workout.length)
     }
 }

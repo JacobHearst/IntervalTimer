@@ -9,11 +9,16 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.intervaltimer.R
+import com.example.intervaltimer.Util
 import com.example.intervaltimer.databinding.AddIntervalTimerModalBinding
+import com.example.intervaltimer.workout.WorkoutViewModel
 import com.example.room.Interval
+import com.example.room.Workout
 import com.skydoves.colorpickerview.listeners.ColorListener
+import kotlinx.android.synthetic.main.fragment_interval_list.*
 import java.util.*
 
 /**
@@ -23,6 +28,7 @@ import java.util.*
  */
 class AddIntervalModalFragment : DialogFragment() {
     private lateinit var binding: AddIntervalTimerModalBinding
+    private lateinit var fragment: Fragment
 
     // TODO: Implement input validation
 //    private var nameInputValid: Boolean = false
@@ -73,6 +79,10 @@ class AddIntervalModalFragment : DialogFragment() {
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
+    fun addFragmentReference(fragment: Fragment) {
+        this.fragment = fragment
+    }
+
     /**
      * addInterval: Add Interval to Database
      */
@@ -91,6 +101,10 @@ class AddIntervalModalFragment : DialogFragment() {
         val repsText: String = getString(R.string.add_interval_reps_toggle_text).toUpperCase(Locale.ENGLISH)
         val minutesText: String = getString(R.string.interval_unit_minutes)
 
+        val workout = arguments!!.getSerializable("workout") as Workout
+        val intervalIndex = arguments!!.getInt("newIndex")
+        val workoutId = workout.id!!
+
         // If Input Type is Timer, check if we need to convert Minutes to Seconds
         if (intervalUnitType == timerText)
             if (intervalTimerUnitType == minutesText)
@@ -104,12 +118,18 @@ class AddIntervalModalFragment : DialogFragment() {
             if (intervalUnitType == timerText) intervalUnits else null,
             if (intervalUnitType == repsText) intervalUnits else null,
             intervalColor,
-            arguments!!.getInt("newIndex"),
-            arguments!!.getInt("workoutId")
+            intervalIndex,
+            workoutId
             )
         val viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
+        val workoutViewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
+
+        workout.length += intervalUnits
+        workoutViewModel.update(workout)
 
         viewModel.insert(intervalToAdd)
+
+        fragment.intervalViewTotalTime.text = Util.getDurationLabel(workout.length)
     }
 
     /**
