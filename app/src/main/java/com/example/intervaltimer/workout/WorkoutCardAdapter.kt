@@ -109,10 +109,8 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             }
 
             editButton.setOnClickListener {
-                val dialog =
-                    EditWorkoutModalFragment()
-                dialog.setWorkout(workout)
-                dialog.show(fragment.activity!!.supportFragmentManager, "EditWorkoutModalFragment")
+                val dialog = WorkoutModalFragment(workout)
+                dialog.show(fragment.requireActivity().supportFragmentManager, "EditWorkoutModalFragment")
             }
 
             if(workout.isFavorite) {

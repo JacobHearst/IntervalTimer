@@ -48,7 +48,7 @@ class AddIntervalModalFragment : DialogFragment() {
                     R.layout.add_interval_timer_modal_title, null))
                 ?.setView(binding.root)
                 ?.setPositiveButton(
-                    R.string.add_interval_add_dialog_text
+                    R.string.submit
                 ) { dialog, _ ->
                     addInterval()
                     dialog?.dismiss()

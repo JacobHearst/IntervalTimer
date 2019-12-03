@@ -38,7 +38,7 @@ class WorkoutListFragment : Fragment() {
         val floatingActionButton = rootView.addWorkoutButton//rootView.findViewById<FloatingActionButton>(R.id.addWorkoutButton)
 
         floatingActionButton?.setOnClickListener {
-            val dialog = AddWorkoutModalFragment()
+            val dialog = WorkoutModalFragment(null)
             dialog.show(activity!!.supportFragmentManager, "AddWorkoutModalFragment")
         }
 
