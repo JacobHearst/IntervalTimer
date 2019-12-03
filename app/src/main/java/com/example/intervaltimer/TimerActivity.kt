@@ -1,9 +1,9 @@
 package com.example.intervaltimer
 
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_timer.*
 
 class TimerActivity : AppCompatActivity() {
@@ -47,9 +47,7 @@ class TimerActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_timer)
 
-        val actionBar = supportActionBar
-        actionBar!!.setHomeButtonEnabled(true)
-        actionBar.setDisplayHomeAsUpEnabled(true)
+        invalidateOptionsMenu()
 
         mediaPlayer = MediaPlayer.create(this, R.raw.bellring)
 
