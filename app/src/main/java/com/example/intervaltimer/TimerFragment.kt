@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
@@ -13,7 +12,6 @@ import android.os.CountDownTimer
 import android.view.*
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.activity_timer.*
@@ -65,7 +63,7 @@ class TimerFragment : Fragment() {
 
         mediaPlayer = MediaPlayer.create(context, R.raw.bellring)
 
-        setMenuVisibility(false)
+        setHasOptionsMenu(true)
 
         rootView.workoutName.text = "Push ups" // placeholder code for setting text at startup
         rootView.repsText.text = "# of reps 50" // placeholder code for setting text at startup
@@ -126,13 +124,8 @@ class TimerFragment : Fragment() {
         createNotification()
 
         // val audioManager: AudioManager = getSystemService(AUDIO_SERVICE) as AudioManager // Audio manager in case we need it
-
+        requireActivity().invalidateOptionsMenu()
         return rootView
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        // TODO: Somehow not show the menu...?
     }
 
     /**
@@ -168,6 +161,12 @@ class TimerFragment : Fragment() {
             // notificationId is a unique int for each notification that you must define
             notify(NOTIFICATION_ID, notificationBuilder.build())
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.findItem(R.id.action_search).isVisible = false
+        menu.findItem(R.id.action_settings).isVisible = false
+        return super.onCreateOptionsMenu(menu, menuInflater)
     }
 
     private fun createNotificationChannel() {

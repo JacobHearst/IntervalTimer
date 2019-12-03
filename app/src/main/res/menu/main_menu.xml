@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/action_search"
-        android:title="Search"
+        android:title="@string/search"
         android:icon="@drawable/ic_search"
         android:orderInCategory="100"
         app:showAsAction="always" />
 
     <item android:id="@+id/action_settings"
-        android:title="Settings"
+        android:title="@string/settings"
         android:icon="@drawable/ic_setting"
         android:orderInCategory="100"
         app:showAsAction="always" />
