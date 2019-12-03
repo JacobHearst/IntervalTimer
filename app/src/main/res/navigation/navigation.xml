@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/landingFragment"
-        android:name="com.example.intervaltimer.LandingFragment"
+        android:name="com.example.intervaltimer.workout.WorkoutListFragment"
         android:label="Interval Timer"
         tools:layout="@layout/fragment_landing" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/intervalListFragment"
-        android:name="com.example.intervaltimer.IntervalListFragment"
+        android:name="com.example.intervaltimer.interval.IntervalListFragment"
         tools:layout="@layout/fragment_interval_list">
         <argument
             android:name="workout"

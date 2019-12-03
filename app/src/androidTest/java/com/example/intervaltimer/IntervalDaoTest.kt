@@ -152,7 +152,7 @@ class IntervalDaoTest {
             null,
             "0005",
             3,
-            864
+            1
         )
         mockIntervalDao.insert(interval)
 
@@ -165,8 +165,10 @@ class IntervalDaoTest {
             30,
             "304",
             4,
-            9382
+            1
         )
+
+        mockIntervalDao.update(updatedInterval)
 
         mockIntervalDao.getByWorkout(1).observeOnce {
             assert(it[0].name == updatedInterval.name)

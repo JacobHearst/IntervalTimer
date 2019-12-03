@@ -1,4 +1,4 @@
-package com.example.viewmodel
+package com.example.intervaltimer.interval
 
 import android.app.Application
 import android.os.AsyncTask
@@ -24,10 +24,10 @@ class IntervalViewModel(app: Application): AndroidViewModel(app) {
     /**
      * Insert an interval to the database
      *
-     * @param interval [Interval] to insert
+     * @param item [Interval] to insert
      */
-    fun insertInterval(vararg interval: Interval) {
-        AsyncIntervalInsert(intervalDao).execute(*interval)
+    fun insert(vararg item: Interval) {
+        AsyncIntervalInsert(intervalDao).execute(*item)
     }
 
     /**
@@ -53,10 +53,10 @@ class IntervalViewModel(app: Application): AndroidViewModel(app) {
     /**
      * Update an interval
      *
-     * @param interval Updated [Interval] object
+     * @param item Updated [Interval] object
      */
-    fun updateInterval(vararg interval: Interval) {
-        AsyncIntervalUpdate(intervalDao).execute(*interval)
+    fun update(item: Interval) {
+        AsyncIntervalUpdate(intervalDao).execute(item)
     }
 
     /**
@@ -73,10 +73,10 @@ class IntervalViewModel(app: Application): AndroidViewModel(app) {
     /**
      * Delete an interval
      *
-     * @param interval [Interval] object to delete
+     * @param item [Interval] object to delete
      */
-    fun deleteInterval(interval: Interval) {
-        AsyncIntervalDelete(intervalDao).execute(interval)
+    fun delete(item: Interval) {
+        AsyncIntervalDelete(intervalDao).execute(item)
     }
 
     /**

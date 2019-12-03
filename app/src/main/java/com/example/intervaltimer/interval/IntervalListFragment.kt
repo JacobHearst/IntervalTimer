@@ -1,7 +1,8 @@
-package com.example.intervaltimer
+package com.example.intervaltimer.interval
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,67 +12,22 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.DOWN
-import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.intervaltimer.R
 import com.example.room.Interval
-import com.example.viewmodel.IntervalViewModel
+import com.example.intervaltimer.Util
 import kotlinx.android.synthetic.main.fragment_interval_list.view.*
 
 /**
  * A [Fragment] subclass representing the list of intervals in a workout.
  *
  * @property args Navigation arguments
- * @property itemTouchHelper Item touch helper for handling drag to reorder
  * @property viewModel Local reference to the [IntervalViewModel]
  */
 class IntervalListFragment : Fragment() {
     private val args: IntervalListFragmentArgs by navArgs()
     private lateinit var viewModel: IntervalViewModel
-
-    private val itemTouchHelper by lazy {
-        val simpleItemTouchCallback =
-            object : ItemTouchHelper.SimpleCallback(UP or DOWN, 0) {
-                /**
-                 * Handle dragging and reordering
-                 *
-                 * @param recyclerView The RecylerView being interacted with
-                 * @param viewHolder The ViewHolder for the view being interacted with
-                 * @param target The target ViewHolder
-                 */
-                override fun onMove(recyclerView: RecyclerView,
-                                    viewHolder: RecyclerView.ViewHolder,
-                                    target: RecyclerView.ViewHolder): Boolean {
-                    val adapter = recyclerView.adapter as IntervalAdapter
-                    val from = viewHolder.adapterPosition
-                    val to = target.adapterPosition
-
-                    adapter.moveItem(from, to)
-                    adapter.notifyItemMoved(from, to)
-
-                    return true
-                }
-
-                // Side to side reordering isn't supported so we don't implement this function
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
-
-                /**
-                 * User interaction has ended, persist index updates
-                 *
-                 * @param recyclerView The RecylerView being interacted with
-                 * @param viewHolder The ViewHolder for the view being interacted with
-                 */
-                override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-                    super.clearView(recyclerView, viewHolder)
-
-                    val adapter = recyclerView.adapter as IntervalAdapter
-                    persistIndexUpdates(adapter.getIntervals())
-                }
-            }
-
-        ItemTouchHelper(simpleItemTouchCallback)
-    }
 
     /**
      * Initialize data binding, recycler view
@@ -83,7 +39,8 @@ class IntervalListFragment : Fragment() {
         val recyclerView = initRecyclerView(rootView.intervalList)
 
         rootView.intervalViewWorkoutName.text = args.workout.name
-        rootView.intervalViewTotalTime.text = Util.getDurationLabel(args.workout.length)
+        rootView.intervalViewTotalTime.text =
+            Util.getDurationLabel(args.workout.length)
 
         /**
          * Upon click, open Add Interval Modal
@@ -100,7 +57,6 @@ class IntervalListFragment : Fragment() {
 
         rootView.startWorkout.setOnClickListener {
             findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerFragment())
-            // TODO: Connect to timer screen
         }
 
         return rootView
@@ -113,7 +69,8 @@ class IntervalListFragment : Fragment() {
      */
     private fun initRecyclerView(recyclerView: RecyclerView): RecyclerView {
         val recyclerLayout = LinearLayoutManager(requireActivity().applicationContext)
-        val intervalAdapter = IntervalAdapter()
+        val intervalAdapter =
+            IntervalCardAdapter()
 
         recyclerView.apply {
             setHasFixedSize(true)
@@ -124,24 +81,15 @@ class IntervalListFragment : Fragment() {
         // Populate the RecyclerView
         viewModel.getIntervalsByWorkout(args.workout.id!!).observe(this,
             Observer<List<Interval>> { intervals ->
-                intervalAdapter.setIntervals(intervals.toMutableList())
+                Log.d("INTERVAL_LIST_FRAGMENT", intervals.toString())
+                intervalAdapter.setItems(intervals.toMutableList())
             }
         )
 
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        ItemTouchHelper(
+            IntervalItemTouchCallback(intervalAdapter, this)
+        ).attachToRecyclerView(recyclerView)
 
         return recyclerView
-    }
-
-    /**
-     * Persist changes to interval order to the database
-     *
-     * @param intervals List of intervals with updated indices
-     */
-    fun persistIndexUpdates(intervals: List<Interval>) {
-        intervals.forEachIndexed { index, interval ->
-            interval.index = index
-        }
-        viewModel.updateInterval(*intervals.toTypedArray())
     }
 }

@@ -1,4 +1,4 @@
-package com.example.intervaltimer
+package com.example.intervaltimer.workout
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.intervaltimer.R
+import com.example.intervaltimer.Util
 import com.example.room.Workout
-import com.example.viewmodel.WorkoutViewModel
 import kotlinx.android.synthetic.main.workout_card.view.*
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
 
 /**
  * Adapter class for the Workout recycler view.
@@ -42,10 +41,10 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
     /**
      * Sets the workouts to display
      *
-     * @param newWorkoutList List to display
+     * @param items List to display
      */
-    fun setWorkouts(newWorkoutList: MutableList<Workout>) {
-        workouts = newWorkoutList
+    fun setItems(items: List<Workout>) {
+        workouts = items.toMutableList()
 
         notifyDataSetChanged()
     }
@@ -90,7 +89,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
 
             // When clicked, navigate to the interval view screen and pass the workout
             holder.workoutView.setOnClickListener {
-                findNavController(fragment).navigate(LandingFragmentDirections.actionLandingFragmentToIntervalListFragment(workout))
+                findNavController(fragment).navigate(WorkoutListFragmentDirections.actionLandingFragmentToIntervalListFragment(workout))
             }
 
             val favoriteButton = holder.workoutView.favoriteButton
@@ -100,7 +99,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
                 // Flip value
                 workout.isFavorite = !workout.isFavorite
 
-                viewModel.updateWorkout(workout)
+                viewModel.update(workout)
 
                 if(workout.isFavorite) {
                     favoriteButton.background = fragment.context?.getDrawable(R.drawable.ic_star_filled)
@@ -110,7 +109,8 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
             }
 
             editButton.setOnClickListener {
-                val dialog = EditWorkoutModalFragment()
+                val dialog =
+                    EditWorkoutModalFragment()
                 dialog.setWorkout(workout)
                 dialog.show(fragment.activity!!.supportFragmentManager, "EditWorkoutModalFragment")
             }
@@ -127,9 +127,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
         }
     }
 
-    fun getItem(position: Int) : Workout {
-        return workouts?.get(position)!!
-    }
+    fun getItems() : List<Workout> = workouts!!.toList()
 
     fun deleteItem(position: Int) {
         workouts?.removeAt(position)
