@@ -23,8 +23,8 @@ import kotlinx.android.synthetic.main.workout_card.view.*
 class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolder>() {
 
     private var workouts: MutableList<Workout>? = null
-    private var fragment: Fragment? = null
-    private var viewModel: WorkoutViewModel? = null
+    private lateinit var fragment: Fragment
+    private lateinit var viewModel: WorkoutViewModel
 
     constructor(fragment: Fragment) : this() {
         this.fragment = fragment
@@ -89,32 +89,39 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
 
             // When clicked, navigate to the interval view screen and pass the workout
             holder.workoutView.setOnClickListener {
-                findNavController(fragment!!).navigate(WorkoutListFragmentDirections.actionLandingFragmentToIntervalListFragment(workout))
+                findNavController(fragment).navigate(WorkoutListFragmentDirections.actionLandingFragmentToIntervalListFragment(workout))
             }
 
             val favoriteButton = holder.workoutView.favoriteButton
+            val editButton = holder.workoutView.editButton
 
             favoriteButton.setOnClickListener {
                 // Flip value
                 workout.isFavorite = !workout.isFavorite
 
-                viewModel?.update(workout)
+                viewModel.update(workout)
 
                 if(workout.isFavorite) {
-                    favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
+                    favoriteButton.background = fragment.context?.getDrawable(R.drawable.ic_star_filled)
                 } else {
-                    favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
+                    favoriteButton.background = fragment.context?.getDrawable(R.drawable.ic_star_empty)
                 }
             }
 
+            editButton.setOnClickListener {
+                val dialog =
+                    EditWorkoutModalFragment()
+                dialog.setWorkout(workout)
+                dialog.show(fragment.activity!!.supportFragmentManager, "EditWorkoutModalFragment")
+            }
+
             if(workout.isFavorite) {
-                favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_filled)
+                favoriteButton.background = fragment.context?.getDrawable(R.drawable.ic_star_filled)
             } else {
-                favoriteButton.background = fragment?.context?.getDrawable(R.drawable.ic_star_empty)
+                favoriteButton.background = fragment.context?.getDrawable(R.drawable.ic_star_empty)
             }
         }
         else {
-
             workoutName.text = "ERROR"
             workoutTime.text = "ERROR"
         }
