@@ -8,12 +8,16 @@
     <string name="add_interval_title">Add Interval</string>
     <string name="submit">Submit</string>
     <string name="add_interval_cancel_dialog_text">Cancel</string>
+    <string name="add_interval_add_dialog_text">Add</string>
     <string name="add_interval_reps_toggle_text">Reps</string>
     <string name="add_interval_timer_toggle_text">Timer</string>
     <string name="add_interval_timers_reps_toggle_button">RepsTimerToggleButton</string>
     <string name="add_interval_name_hint_text">Interval Name</string>
     <string name="add_interval_active_text">Active</string>
     <string name="add_interval_resting_text">Resting</string>
+    <string name="interval_name_empty_error">Please enter in an Interval Name</string>
+    <string name="interval_reps_empty_error">Please enter the number of reps you want</string>
+    <string name="interval_timer_empty_error">Please enter a duration for the interval</string>
     <string name="interval_second_unit">Sec</string>
     <string name="interval_unit_minutes">Min</string>
     <string name="add_interval_checkbox_text">Custom Interval Color</string>
@@ -33,4 +37,5 @@
     <string name="edit_workout_positive_button_text">Save</string>
     <string name="settings">Settings</string>
     <string name="search">Search</string>
+    <string name="edit_interval_modal_title_text">Edit Interval</string>
 </resources>

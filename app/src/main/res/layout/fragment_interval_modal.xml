@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/interval_modal_constraint_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <CheckBox
+            android:id="@+id/show_color_picker_checkbox"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/add_interval_checkbox_text"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/workout_type_group"
+            app:layout_constraintTop_toBottomOf="@+id/units_input_constraint_layout" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/units_input_constraint_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@+id/workout_units_group"
+            app:layout_constraintTop_toBottomOf="@+id/workout_units_group">
+
+            <EditText
+                android:id="@+id/reps_input"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/minutes_input"
+                android:layout_width="50dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/minutes_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/minutes_text"
+                android:layout_width="75dp"
+                android:layout_height="45dp"
+                android:background="#7E7878"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:text="@string/interval_unit_minutes"
+                android:textAllCaps="true"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/minutes_input"
+                app:layout_constraintEnd_toStartOf="@+id/seconds_input" />
+
+            <TextView
+                android:id="@+id/seconds_text"
+                android:layout_width="75dp"
+                android:layout_height="45dp"
+                android:background="#7E7878"
+                android:gravity="center"
+                android:text="@string/interval_second_unit"
+                android:textAllCaps="true"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/seconds_input"
+                app:layout_constraintStart_toEndOf="@+id/seconds_input" />
+
+            <EditText
+                android:id="@+id/seconds_input"
+                android:layout_width="50dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/minutes_text"
+                app:layout_constraintEnd_toStartOf="@+id/seconds_text" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RadioGroup
+            android:id="@+id/workout_type_group"
+            android:layout_width="169dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="#002B1E1E"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/active_radio_button"
+                style="@android:style/Widget.Holo.CompoundButton.RadioButton"
+                android:layout_width="87dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/add_interval_active_text"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="78dp" />
+
+            <RadioButton
+                android:id="@+id/resting_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_interval_resting_text"
+                tools:layout_editor_absoluteX="103dp"
+                tools:layout_editor_absoluteY="78dp" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/workout_units_group"
+            android:layout_width="169dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            android:background="#002B1E1E"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/workout_type_group"
+            app:layout_constraintTop_toBottomOf="@+id/interval_name_input">
+
+            <RadioButton
+                android:id="@+id/timer_radio_button"
+                style="@android:style/Widget.Holo.CompoundButton.RadioButton"
+                android:layout_width="87dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/add_interval_timer_toggle_text"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="246dp" />
+
+            <RadioButton
+                android:id="@+id/reps_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_interval_reps_toggle_text"
+                tools:layout_editor_absoluteX="103dp"
+                tools:layout_editor_absoluteY="246dp" />
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/color_picker_box"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/color_picker_box_desc"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/show_color_picker_checkbox"
+            app:layout_constraintTop_toBottomOf="@+id/show_color_picker_checkbox" />
+
+        <EditText
+            android:id="@+id/interval_name_input"
+            android:layout_width="218dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/interval_name_input_desc"
+            android:ems="10"
+            android:hint="@string/add_interval_name_hint_text"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/workout_type_group"
+            app:layout_constraintTop_toBottomOf="@+id/workout_type_group"
+            tools:hint="@string/add_interval_name_hint_text" />
+
+        <com.skydoves.colorpickerview.ColorPickerView
+            android:id="@+id/interval_color_picker"
+            android:layout_width="225dp"
+            android:layout_height="115dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:alpha_flag="0.8"
+            app:alpha_selector="0.8"
+            app:layout_constraintStart_toEndOf="@+id/color_picker_box"
+            app:layout_constraintTop_toBottomOf="@+id/show_color_picker_checkbox"
+            app:palette="@drawable/color_palette_bar"
+            app:selector="@drawable/wheel"></com.skydoves.colorpickerview.ColorPickerView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
