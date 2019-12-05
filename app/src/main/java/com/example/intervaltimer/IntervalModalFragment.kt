@@ -10,11 +10,15 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.intervaltimer.databinding.FragmentIntervalModalBinding
 import com.example.intervaltimer.interval.IntervalViewModel
+import com.example.intervaltimer.workout.WorkoutViewModel
 import com.example.room.Interval
+import com.example.room.Workout
 import com.skydoves.colorpickerview.listeners.ColorListener
+import kotlinx.android.synthetic.main.fragment_interval_list.*
 import java.util.*
 
 /**
@@ -26,6 +30,7 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
     private lateinit var binding: FragmentIntervalModalBinding
     private lateinit var dialog: AlertDialog
     private var mInterval: Interval? = interval
+    private lateinit var fragment: Fragment
 
     /**
      * onCreateDialog function
@@ -95,6 +100,13 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
     }
 
     /**
+     *
+     */
+    fun addFragmentReference(fragment: Fragment) {
+        this.fragment = fragment
+    }
+
+    /**
      * addInterval: Add Interval to Database
      */
     private fun submitInterval(isUpdate: Boolean) {
@@ -108,6 +120,10 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
         val intervalTime: Int = intervalMinutes * 60 + intervalSeconds
 
         val intervalColor: String = binding.intervalColorPicker.colorEnvelope.hexCode
+
+        val workout = arguments!!.getSerializable("workout") as Workout
+        val intervalIndex = arguments!!.getInt("newIndex")
+        val workoutId = workout.id!!
 
         // Get Input Types
         val intervalWorkoutType: String = (
@@ -127,8 +143,8 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
             if (isTimerInput) intervalTime else null,
             if (!isTimerInput) intervalReps else null,
             intervalColor,
-            arguments!!.getInt("newIndex"),
-            arguments!!.getInt("workoutId")
+            intervalIndex,
+            workoutId
             )
         else
             Interval(
@@ -141,8 +157,14 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
                 mInterval!!.index,
                 mInterval!!.workoutId)
         val viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
+        val workoutViewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
+
+        workout.length += intervalTime
+        workoutViewModel.update(workout)
 
         if (isUpdate) viewModel.update(intervalToSubmit) else viewModel.insert(intervalToSubmit)
+
+        fragment.intervalViewTotalTime.text = Util.getDurationLabel(workout.length)
     }
 
     /**

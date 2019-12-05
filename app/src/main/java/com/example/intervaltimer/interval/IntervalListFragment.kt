@@ -107,9 +107,11 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         val dialog = IntervalModalFragment(interval)
         val bundle = Bundle()
 
+        dialog.addFragmentReference(this)
+
         if (interval == null) {
-            bundle.putInt("workoutId", args.workout.id as Int)
             bundle.putInt("newIndex", recyclerView.adapter?.itemCount as Int)
+            bundle.putSerializable("workout", args.workout)
             // Create an instance of the dialog fragment and show it
             dialog.arguments = bundle
         }
