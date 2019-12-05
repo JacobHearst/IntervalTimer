@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.intervaltimer.R
 import com.example.intervaltimer.Util
-import com.example.intervaltimer.databinding.AddIntervalTimerModalBinding
+import com.example.intervaltimer.databinding.FragmentIntervalModalBinding
 import com.example.intervaltimer.workout.WorkoutViewModel
 import com.example.room.Interval
 import com.example.room.Workout
@@ -27,7 +27,7 @@ import java.util.*
  * @property binding: Asynchronous stream of data from the layout
  */
 class AddIntervalModalFragment : DialogFragment() {
-    private lateinit var binding: AddIntervalTimerModalBinding
+    private lateinit var binding: FragmentIntervalModalBinding
     private lateinit var fragment: Fragment
 
     // TODO: Implement input validation
