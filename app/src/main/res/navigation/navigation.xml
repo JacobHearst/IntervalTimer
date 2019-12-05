@@ -24,16 +24,16 @@
             android:name="workout"
             app:argType="com.example.room.Workout" />
         <action
-            android:id="@+id/action_intervalListFragment_to_timerFragment"
-            app:destination="@id/timerFragment"
-            app:popUpTo="@+id/intervalListFragment" />
+            android:id="@+id/action_intervalListFragment_to_timerActivity"
+            app:destination="@id/timerActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/timerFragment"
-        android:name="com.example.intervaltimer.TimerFragment"
-        android:label="Workout" >
-        <action
-            android:id="@+id/action_timerFragment_to_intervalListFragment"
-            app:destination="@id/intervalListFragment" />
-    </fragment>
+    <activity
+        android:id="@+id/timerActivity"
+        android:name="com.example.intervaltimer.TimerActivity"
+        android:label="fragment_timer"
+        tools:layout="@layout/fragment_timer">
+        <argument
+            android:name="IntervalList"
+            app:argType="com.example.intervaltimer.IntervalListData" />
+    </activity>
 </navigation>
