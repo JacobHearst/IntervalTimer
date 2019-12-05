@@ -14,9 +14,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.intervaltimer.IntervalModalFragment
 import com.example.intervaltimer.R
 import com.example.room.Interval
 import com.example.intervaltimer.Util
+import com.example.intervaltimer.interval.IntervalCardAdapter.OnEditIntervalClickedListener
 import kotlinx.android.synthetic.main.fragment_interval_list.view.*
 
 /**
@@ -25,9 +27,11 @@ import kotlinx.android.synthetic.main.fragment_interval_list.view.*
  * @property args Navigation arguments
  * @property viewModel Local reference to the [IntervalViewModel]
  */
-class IntervalListFragment : Fragment() {
+class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
     private val args: IntervalListFragmentArgs by navArgs()
+    private lateinit var listener: OnEditIntervalClickedListener
     private lateinit var viewModel: IntervalViewModel
+    private lateinit var recyclerView: RecyclerView
 
     /**
      * Initialize data binding, recycler view
@@ -36,7 +40,7 @@ class IntervalListFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_interval_list, container, false)
         viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
-        val recyclerView = initRecyclerView(rootView.intervalList)
+        recyclerView = initRecyclerView(rootView.intervalList)
 
         rootView.intervalViewWorkoutName.text = args.workout.name
         rootView.intervalViewTotalTime.text =
@@ -46,14 +50,7 @@ class IntervalListFragment : Fragment() {
          * Upon click, open Add Interval Modal
          */
         rootView.addInterval.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable("workout", args.workout)
-            bundle.putInt("newIndex", recyclerView.adapter?.itemCount as Int)
-            // Create an instance of the dialog fragment and show it
-            val dialog = AddIntervalModalFragment()
-            dialog.addFragmentReference(this)
-            dialog.arguments = bundle
-            dialog.show(activity!!.supportFragmentManager, "AddIntervalModalFragment")
+            openIntervalModal(null)
         }
 
         rootView.startWorkout.setOnClickListener {
@@ -64,14 +61,22 @@ class IntervalListFragment : Fragment() {
     }
 
     /**
+     * On Interval Edit button clicked, open the interval modal
+     * @param interval Interval to be edited
+     */
+    override fun onEditClicked(interval: Interval) {
+        openIntervalModal(interval)
+    }
+
+    /**
      * Initialize the [RecyclerView] with a layout manager and adapter, then populate it
      *
      * @param recyclerView Reference to the interval list [RecyclerView]
      */
     private fun initRecyclerView(recyclerView: RecyclerView): RecyclerView {
         val recyclerLayout = LinearLayoutManager(requireActivity().applicationContext)
-        val intervalAdapter =
-            IntervalCardAdapter()
+        listener = this
+        val intervalAdapter = IntervalCardAdapter(listener)
 
         recyclerView.apply {
             setHasFixedSize(true)
@@ -92,5 +97,23 @@ class IntervalListFragment : Fragment() {
         ).attachToRecyclerView(recyclerView)
 
         return recyclerView
+    }
+
+    /**
+     * Initializes and creates the Dialog Fragment View
+     * @param interval Interval to be edited
+     */
+    private fun openIntervalModal(interval: Interval?) {
+        val dialog = IntervalModalFragment(interval)
+        val bundle = Bundle()
+
+        if (interval == null) {
+            bundle.putInt("workoutId", args.workout.id as Int)
+            bundle.putInt("newIndex", recyclerView.adapter?.itemCount as Int)
+            // Create an instance of the dialog fragment and show it
+            dialog.arguments = bundle
+        }
+
+        dialog.show(activity!!.supportFragmentManager, "IntervalModalFragment")
     }
 }
