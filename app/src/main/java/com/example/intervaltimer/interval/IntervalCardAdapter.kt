@@ -1,4 +1,4 @@
-package com.example.intervaltimer
+package com.example.intervaltimer.interval
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,15 +6,25 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.intervaltimer.R
 import com.example.room.Interval
+import com.example.intervaltimer.Util
 
 /**
  * A [RecyclerView.Adapter] responsible for processing previous orders
  *
  * @property intervals Copy of intervals list
  */
-class IntervalAdapter : RecyclerView.Adapter<IntervalAdapter.ViewHolder>() {
+class IntervalCardAdapter(listener: OnEditIntervalClickedListener) :
+    RecyclerView.Adapter<IntervalCardAdapter.ViewHolder>() {
+    interface OnEditIntervalClickedListener {
+        fun onEditClicked(interval: Interval)
+    }
+
     private var intervals: MutableList<Interval>? = null
+    private var editIntervalListener: OnEditIntervalClickedListener = listener
+
+    var wasSwiped = false
 
     /**
      * Provide a reference to the views for each data item
@@ -29,10 +39,10 @@ class IntervalAdapter : RecyclerView.Adapter<IntervalAdapter.ViewHolder>() {
     /**
      * Set the intervals being displayed
      *
-     * @param intervals Updated orders list
+     * @param items Updated orders list
      */
-    fun setIntervals(intervals: List<Interval>) {
-        this.intervals = intervals.sortedWith(compareBy{ it.index }).toMutableList()
+    fun setItems(items: List<Interval>) {
+        this.intervals = items.sortedWith(compareBy{ it.index }).toMutableList()
         notifyDataSetChanged()
     }
 
@@ -63,11 +73,13 @@ class IntervalAdapter : RecyclerView.Adapter<IntervalAdapter.ViewHolder>() {
         if (intervals != null) {
             val interval = this.intervals!![position]
             intervalName.text = interval.name
-            intervalTime.text = interval.reps?.toString() ?: Util.getDurationLabel(interval.time!!)
+            intervalTime.text = interval.reps?.toString() ?: Util.getDurationLabel(
+                interval.time!!
+            )
 
 
             editButton.setOnClickListener {
-                // TODO: Link to Rylee's modal
+                editIntervalListener.onEditClicked(interval)
             }
         }
     }
@@ -89,8 +101,18 @@ class IntervalAdapter : RecyclerView.Adapter<IntervalAdapter.ViewHolder>() {
         intervals?.add(to, intervalCopy)
     }
 
+    fun insertItem(at: Int, interval: Interval) {
+        intervals?.add(at, interval)
+        notifyDataSetChanged()
+    }
+
+    fun deleteItem(interval: Interval) {
+        intervals?.remove(interval)
+        notifyDataSetChanged()
+    }
+
     /**
      * Return the contents of the data set
      */
-    fun getIntervals(): List<Interval> = this.intervals!!
+    fun getItems(): List<Interval> = this.intervals!!
 }

@@ -1,35 +1,25 @@
-package com.example.intervaltimer
+package com.example.intervaltimer.workout
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.intervaltimer.databinding.AddIntervalTimerModalBinding
+import com.example.intervaltimer.R
 import com.example.intervaltimer.databinding.AddWorkoutModalBinding
-import com.example.room.Interval
 import com.example.room.Workout
-import com.example.viewmodel.IntervalViewModel
-import com.example.viewmodel.WorkoutViewModel
-import com.skydoves.colorpickerview.listeners.ColorListener
-import java.util.*
 
 /**
- * Add Interval Modal View Fragment
+ * Workout Modal Fragment
  * #Allows the User to create/add new Intervals
  * @property binding: Asynchronous stream of data from the layout
  */
-class AddWorkoutModalFragment : DialogFragment() {
+class WorkoutModalFragment(private val workout: Workout?) : DialogFragment() {
     private lateinit var binding: AddWorkoutModalBinding
-
-    // TODO: Implement input validation
-    //    private var nameInputValid: Boolean = false
-    //    private var unitsInputValid: Boolean = false
 
     /**
      * onCreateDialog function
@@ -38,7 +28,9 @@ class AddWorkoutModalFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Setup Dialog Activity
         return activity?.let {
-            setupDataBinding()
+            binding = DataBindingUtil.inflate(LayoutInflater.from(requireContext()),
+                R.layout.add_workout_modal, null, false)
+
             // Build the dialog alert
             val builder: AlertDialog.Builder? = activity?.let {
                 AlertDialog.Builder(it)
@@ -47,14 +39,17 @@ class AddWorkoutModalFragment : DialogFragment() {
             // Set the properties of the dialog alert
             builder
                 ?.setCancelable(false)
-                ?.setCustomTitle(View.inflate(context, R.layout.add_workout_modal_title, null))
+                ?.setCustomTitle(View.inflate(context,
+                    R.layout.add_workout_modal_title, null))
                 ?.setView(binding.root)
-                ?.setPositiveButton(R.string.add_interval_add_dialog_text
+                ?.setPositiveButton(
+                    R.string.submit
                 ) { dialog, _ ->
-                    addWorkout()
+                    submitWorkout()
                     dialog?.dismiss()
                 }
-                ?.setNegativeButton(R.string.add_interval_cancel_dialog_text
+                ?.setNegativeButton(
+                    R.string.add_interval_cancel_dialog_text
                 ) { dialog, _ ->
                     dialog?.cancel()
                 }
@@ -63,19 +58,37 @@ class AddWorkoutModalFragment : DialogFragment() {
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
+    override fun onStart() {
+        super.onStart()
+        (requireDialog() as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = workout != null
+        setupDataBinding()
+    }
+
     /**
      * Adds a new workout to the database.
      */
-    private fun addWorkout() {
+    private fun submitWorkout() {
         val viewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
+        val workoutName = binding.workoutNameEditText.text.toString()
 
-        viewModel.insertWorkout(Workout(null, binding.editText.text.toString(), 0, false))
+        if (workout != null) {
+            workout.name = workoutName
+            viewModel.update(workout)
+        } else {
+            viewModel.insert(Workout(null, workoutName, 0, false))
+        }
     }
 
     /**
      * Initializes data binding for the modal.
      */
     private fun setupDataBinding() {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context!!), R.layout.add_workout_modal, null, false)
+        if (workout != null) {
+            binding.workoutNameEditText.setText(workout.name)
+        }
+
+        binding.workoutNameEditText.addTextChangedListener {
+            (requireDialog() as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !it.isNullOrEmpty()
+        }
     }
 }

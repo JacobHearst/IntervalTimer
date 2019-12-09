@@ -1,4 +1,4 @@
-package com.example.viewmodel
+package com.example.intervaltimer.workout
 
 import android.app.Application
 import android.os.AsyncTask
@@ -28,10 +28,10 @@ class WorkoutViewModel(app: Application): AndroidViewModel(app) {
     /**
      * Insert a workout to the database
      *
-     * @param workout [Workout] to insert
+     * @param item [Workout] to insert
      */
-    fun insertWorkout(vararg workout: Workout) {
-        AsyncWorkoutInsert(workoutDao).execute(*workout)
+    fun insert(vararg item: Workout) {
+        AsyncWorkoutInsert(workoutDao).execute(*item)
     }
 
     /**
@@ -55,10 +55,10 @@ class WorkoutViewModel(app: Application): AndroidViewModel(app) {
     /**
      * Update a workout
      *
-     * @param workout Updated [Workout] object
+     * @param item Updated [Workout] object
      */
-    fun updateWorkout(workout: Workout) {
-        AsyncWorkoutUpdate(workoutDao).execute(workout)
+    fun update(item: Workout) {
+        AsyncWorkoutUpdate(workoutDao).execute(item)
     }
 
     /**
@@ -76,10 +76,10 @@ class WorkoutViewModel(app: Application): AndroidViewModel(app) {
     /**
      * Delete a workout
      *
-     * @param workout [Workout] object to delete
+     * @param item [Workout] object to delete
      */
-    fun deleteWorkout(workout: Workout) {
-        AsyncWorkoutDelete(workoutDao).execute(workout)
+    fun delete(item: Workout) {
+        AsyncWorkoutDelete(workoutDao).execute(item)
     }
 
     /**
