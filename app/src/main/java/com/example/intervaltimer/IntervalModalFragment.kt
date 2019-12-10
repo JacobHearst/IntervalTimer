@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -19,6 +21,7 @@ import com.example.room.Interval
 import com.example.room.Workout
 import com.skydoves.colorpickerview.listeners.ColorListener
 import kotlinx.android.synthetic.main.fragment_interval_list.*
+import kotlinx.android.synthetic.main.fragment_interval_modal.view.*
 import java.util.*
 
 /**
@@ -236,6 +239,33 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
                 binding.timerRadioButton.isChecked = true
                 binding.minutesInput.setText((mInterval?.time?.div(60)).toString())
                 binding.secondsInput.setText((mInterval?.time?.rem(60)).toString())
+            }
+
+            binding.minutesInput.setOnKeyListener { textView, i, keyEvent ->
+                if (textView.minutes_input.text.toString().isNotBlank()) {
+                    val inputValue = Integer.parseInt(textView.minutes_input.text.toString())
+                    val inputValid = inputValue < 60
+                    if (!inputValid) {
+                        textView?.minutes_input?.setText("59")
+                    }
+                    false
+                } else {
+                    true
+                }
+            }
+
+            binding.secondsInput.setOnKeyListener { textView, i, keyEvent ->
+                if (textView.seconds_input.text.toString().isNotBlank()) {
+                    val inputValue = Integer.parseInt(textView.seconds_input.text.toString())
+                    val inputValid = inputValue < 60
+                    if (!inputValid) {
+                        textView?.seconds_input?.setText("59")
+                        binding.minutesInput?.setText((Integer.parseInt(binding.minutesInput.text.toString()) + inputValue / 60).toString())
+                    }
+                    false
+                } else {
+                    true
+                }
             }
 
             binding.intervalNameInput.setText(mInterval?.name)
