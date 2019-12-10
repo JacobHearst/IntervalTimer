@@ -8,6 +8,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -58,7 +59,12 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         }
 
         rootView.startWorkout.setOnClickListener {
-            findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerFragment())
+
+            if(recyclerView.adapter!!.itemCount > 0) {
+                findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerFragment())
+            } else {
+                Toast.makeText(this.context, "This workout is empty!", Toast.LENGTH_LONG).show()
+            }
         }
 
         return rootView
