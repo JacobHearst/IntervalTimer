@@ -3,7 +3,10 @@ package com.example.intervaltimer.workout
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.intervaltimer.R
 import com.example.room.Workout
+import kotlinx.android.synthetic.main.fragment_landing.*
 import kotlinx.android.synthetic.main.fragment_landing.view.*
 
 /**
@@ -21,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_landing.view.*
  *
  */
 class WorkoutListFragment : Fragment() {
+    private lateinit var zeroStateLabel: TextView
     /**
      * Called when the fragment is first initialized.
      *
@@ -42,6 +47,7 @@ class WorkoutListFragment : Fragment() {
             dialog.show(activity!!.supportFragmentManager, "AddWorkoutModalFragment")
         }
 
+        zeroStateLabel = rootView.workoutZeroStateLabel
         initRecylerView(rootView.cardRecyclerView)
 
         return rootView
@@ -70,6 +76,8 @@ class WorkoutListFragment : Fragment() {
         viewModel.getAllWorkouts().observe(this,
             Observer<List<Workout>> { workouts ->
                 recyclerAdapter.setItems(workouts.toMutableList())
+                zeroStateLabel.visibility = if (workouts.isEmpty()) VISIBLE else GONE
+                cardRecyclerView.visibility = if (workouts.isEmpty()) GONE else VISIBLE
             }
         )
 
