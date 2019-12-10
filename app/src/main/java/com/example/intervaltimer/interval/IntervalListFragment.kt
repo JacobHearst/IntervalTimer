@@ -109,12 +109,14 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
 
         dialog.addFragmentReference(this)
 
+        // If the interval is a new interval
         if (interval == null) {
             bundle.putInt("newIndex", recyclerView.adapter?.itemCount as Int)
-            bundle.putSerializable("workout", args.workout)
-            // Create an instance of the dialog fragment and show it
-            dialog.arguments = bundle
         }
+
+        // Pass a reference to the workout for UI and database updates
+        bundle.putSerializable("workout", args.workout)
+        dialog.arguments = bundle
 
         dialog.show(activity!!.supportFragmentManager, "IntervalModalFragment")
     }
