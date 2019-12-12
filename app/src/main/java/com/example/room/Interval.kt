@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 /**
  * [Entity] data class representing the Interval table in the app database
@@ -34,7 +35,7 @@ data class Interval(
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE
     ) val workoutId: Int
-) {
+) : Serializable {
     /**
      * Enum representing the two types of intervals
      */
