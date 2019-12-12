@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.intervaltimer.IntervalListData
 import com.example.intervaltimer.IntervalModalFragment
 import com.example.intervaltimer.R
 import com.example.intervaltimer.Util
@@ -35,6 +36,7 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
     private lateinit var listener: OnEditIntervalClickedListener
     private lateinit var viewModel: IntervalViewModel
     private lateinit var recyclerView: RecyclerView
+    lateinit var interList: List<Interval>
     private lateinit var zeroStateLabel: TextView
 
     /**
@@ -60,8 +62,10 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
 
         rootView.startWorkout.setOnClickListener {
 
+            val list = IntervalListData(interList)
+
             if(recyclerView.adapter!!.itemCount > 0) {
-                findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerFragment())
+                findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerActivity(list))
             } else {
                 Toast.makeText(this.context, "This workout is empty!", Toast.LENGTH_LONG).show()
             }
@@ -88,6 +92,7 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         listener = this
         val intervalAdapter = IntervalCardAdapter(listener)
 
+
         recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = recyclerLayout
@@ -98,6 +103,7 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         viewModel.getIntervalsByWorkout(args.workout.id!!).observe(this,
             Observer<List<Interval>> { intervals ->
                 intervalAdapter.setItems(intervals.toMutableList())
+                interList = intervalAdapter.getItems()
                 zeroStateLabel.visibility = if (intervals.isEmpty()) VISIBLE else GONE
                 recyclerView.visibility = if (intervals.isEmpty()) GONE else VISIBLE
             }
@@ -106,6 +112,8 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         ItemTouchHelper(
             IntervalItemTouchCallback(intervalAdapter, this, args.workout)
         ).attachToRecyclerView(recyclerView)
+
+
 
         return recyclerView
     }

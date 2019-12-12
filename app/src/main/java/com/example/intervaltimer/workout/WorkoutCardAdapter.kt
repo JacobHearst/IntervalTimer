@@ -89,7 +89,7 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
 
             // When clicked, navigate to the interval view screen and pass the workout
             holder.workoutView.setOnClickListener {
-                findNavController(fragment).navigate(WorkoutListFragmentDirections.actionLandingFragmentToIntervalListFragment(workout))
+                findNavController(fragment).navigate(WorkoutListFragmentDirections.actionWorkoutListFragmentToIntervalListFragment(workout))
             }
 
             val favoriteButton = holder.workoutView.favoriteButton

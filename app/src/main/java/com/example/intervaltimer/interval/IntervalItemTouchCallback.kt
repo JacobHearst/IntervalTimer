@@ -1,6 +1,5 @@
 package com.example.intervaltimer.interval
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,6 +19,7 @@ class IntervalItemTouchCallback(
 ) : ItemTouchHelper.SimpleCallback(UP or DOWN, LEFT) {
     private var viewModel = ViewModelProviders.of(fragment).get(IntervalViewModel::class.java)
     private var workoutViewModel = ViewModelProviders.of(fragment).get(WorkoutViewModel::class.java)
+    private var wasSwiped = false
 
     /**
      * Handle dragging and reordering
@@ -53,9 +53,9 @@ class IntervalItemTouchCallback(
 
         processTimeChanges(intervalToDelete, false)
 
-        cardAdapter.deleteItem(intervalToDelete)
-        cardAdapter.wasSwiped = true
+        viewModel.delete(intervalToDelete)
         showUndoSnackbar(intervalToDelete)
+        wasSwiped = true
     }
 
     /**
@@ -66,9 +66,10 @@ class IntervalItemTouchCallback(
      */
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-        if (!cardAdapter.wasSwiped) {
-            Log.d("INTERVAL_ITEM_TOUCH_CALLBACK", "Dragged")
+        if (!wasSwiped) {
+            persistIndexUpdates()
         }
+        wasSwiped = false
     }
 
     /**
@@ -79,23 +80,14 @@ class IntervalItemTouchCallback(
     private fun showUndoSnackbar(interval: Interval) {
         val snackbar = Snackbar.make(fragment.requireView(), "Interval deleted", Snackbar.LENGTH_LONG)
         snackbar.setAction("Undo") {
+            viewModel.insert(interval)
             cardAdapter.insertItem(interval.index, interval)
+            persistIndexUpdates()
 
             processTimeChanges(interval, true)
         }
 
-        snackbar.addCallback(object: Snackbar.Callback() {
-            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                if (event == DISMISS_EVENT_TIMEOUT) {
-                    viewModel.delete(interval)
-                    persistIndexUpdates()
-                }
-                super.onDismissed(transientBottomBar, event)
-            }
-        })
-
         snackbar.show()
-        cardAdapter.wasSwiped = false
     }
 
     /**
