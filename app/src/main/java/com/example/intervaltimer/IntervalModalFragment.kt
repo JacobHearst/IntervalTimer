@@ -115,12 +115,12 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
     private fun submitInterval(isUpdate: Boolean) {
         // Get Inputs
         val intervalName: String = binding.intervalNameInput.text.toString()
-        val intervalReps: Int = if (binding.repsInput.text.isNotEmpty())
+        var intervalReps: Int = if (binding.repsInput.text.isNotEmpty())
             Integer.parseInt(binding.repsInput.text!!.toString()) else 0
 
         val intervalMinutes: Int = if (binding.minutesInput.text.isNotEmpty()) Integer.parseInt(binding.minutesInput.text.toString()) else 0
         val intervalSeconds: Int = if (binding.secondsInput.text.isNotEmpty()) Integer.parseInt(binding.secondsInput.text.toString()) else 0
-        val intervalTime: Int = intervalMinutes * 60 + intervalSeconds
+        var intervalTime: Int = intervalMinutes * 60 + intervalSeconds
 
         val intervalColor: String = binding.intervalColorPicker.colorEnvelope.hexCode
 
@@ -136,26 +136,34 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
                     else
                         R.string.add_interval_resting_text
                 )).toUpperCase(Locale.ENGLISH)
-        val isTimerInput: Boolean = binding.timerRadioButton.isChecked
+
+        // Encode interval with reps
+        if(intervalReps > 0) {
+            intervalTime = 0
+        }
+        // Encode timed interval
+        else {
+            intervalReps = 0
+        }
 
         // Build Interval to Add (If) or Edit (Else)
-        val intervalToSubmit = if (!isUpdate) Interval(
-            null,
-            intervalName,
-            intervalWorkoutType,
-            if (isTimerInput) intervalTime else null,
-            if (!isTimerInput) intervalReps else null,
-            intervalColor,
-            intervalIndex,
-            workoutId
-            )
+        val intervalToSubmit = if (!isUpdate)
+            Interval(
+                null,
+                intervalName,
+                intervalWorkoutType,
+                if(intervalReps == 0) intervalTime else 0, // Insert time only if interval reps is 0
+                if(intervalReps == 0) null else intervalReps,
+                intervalColor,
+                intervalIndex,
+                workoutId)
         else
             Interval(
                 mInterval?.id,
                 intervalName,
                 intervalWorkoutType,
-                if (isTimerInput) intervalTime else null,
-                if (!isTimerInput) intervalReps else null,
+                if(intervalReps == 0) intervalTime else 0, // Insert time only if interval reps is 0
+                if(intervalReps == 0) null else intervalReps,
                 intervalColor,
                 mInterval!!.index,
                 mInterval!!.workoutId)
@@ -163,7 +171,7 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
         val workoutViewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
 
         // Remove the old time from the workout and add the new one, but only remove the old time if the action is an edit
-        if(isUpdate) {
+        if(isUpdate && mInterval != null && mInterval?.time != null) {
             workout.length -= mInterval?.time!!
         }
 
@@ -248,6 +256,7 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
                 binding.secondsInput.setText((mInterval?.time?.rem(60)).toString())
             }
 
+            /*
             binding.minutesInput.setOnKeyListener { textView, i, keyEvent ->
                 if (textView.minutes_input.text.toString().isNotBlank()) {
                     val inputValue = Integer.parseInt(textView.minutes_input.text.toString())
@@ -274,6 +283,7 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
                     true
                 }
             }
+            */
 
             binding.intervalNameInput.setText(mInterval?.name)
             binding.colorPickerBox.setBackgroundColor(mInterval!!.color.hashCode())

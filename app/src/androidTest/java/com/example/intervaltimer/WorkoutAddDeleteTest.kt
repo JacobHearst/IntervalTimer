@@ -188,21 +188,19 @@ class WorkoutAddDeleteTest {
         )
         appCompatButton3.perform(scrollTo(), click())
 
+        // Swipe and delete the card
         onView(childAtPosition(withId(R.id.cardRecyclerView), 0)).perform(swipeLeft())
 
+        // Hit undo
         Thread.sleep(100)
-
-        println("TEST 1")
-
         val snackbarButton = onView(allOf(withId(R.id.snackbar_action), withText("Undo")))
         snackbarButton.perform(click())
 
-
+        // Swipe and delete the card
         onView(childAtPosition(withId(R.id.cardRecyclerView), 0)).perform(swipeLeft())
 
+        // Hit undo
         Thread.sleep(100)
-
-        println("TEST 2")
         onView(childAtPosition(withId(R.id.cardRecyclerView), 1)).perform(swipeLeft())
     }
 

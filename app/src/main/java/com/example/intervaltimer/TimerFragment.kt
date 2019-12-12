@@ -164,8 +164,6 @@ class TimerFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        menu.findItem(R.id.action_search).isVisible = false
-        menu.findItem(R.id.action_settings).isVisible = false
         return super.onCreateOptionsMenu(menu, menuInflater)
     }
 

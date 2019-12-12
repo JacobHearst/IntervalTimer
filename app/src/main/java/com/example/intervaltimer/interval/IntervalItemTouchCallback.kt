@@ -111,11 +111,13 @@ class IntervalItemTouchCallback(
 
     private fun processTimeChanges(interval: Interval, isBeingAdded: Boolean) {
 
-        // Update the time in the database
-        if(isBeingAdded) {
-            workout.length += interval.time!!
-        } else {
-            workout.length -= interval.time!!
+        if(interval.time != null) {
+            // Update the time in the database
+            if(isBeingAdded) {
+                workout.length += interval.time!!
+            } else {
+                workout.length -= interval.time!!
+            }
         }
 
         workoutViewModel.update(workout)
