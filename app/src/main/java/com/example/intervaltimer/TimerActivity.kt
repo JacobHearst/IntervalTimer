@@ -86,6 +86,7 @@ class TimerActivity : AppCompatActivity() {
         val actionBar = supportActionBar!!
         actionBar.setHomeButtonEnabled(true)
         actionBar.setDisplayHomeAsUpEnabled(true)
+        actionBar.setTitle(R.string.timer_activity_title)
 
         playButton.setOnClickListener {
 
@@ -406,11 +407,5 @@ class TimerActivity : AppCompatActivity() {
 
             updateNotification(activity)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
     }
 }

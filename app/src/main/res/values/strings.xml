@@ -40,4 +40,5 @@
     <string name="edit_interval_modal_title_text">Edit Interval</string>
     <string name="workout_zero_state_text">Click the plus button to add a workout</string>
     <string name="interval_zero_state_text">Click the plus button to add an interval</string>
+    <string name="timer_activity_title">Timer</string>
 </resources>
