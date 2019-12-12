@@ -8,12 +8,13 @@
     android:outlineProvider="none"
     tools:context=".TimerActivity">
 
-    <Button
+    <ToggleButton
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="152dp"
         android:background="@drawable/ic_play"
+        android:textSize="0sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fastForwardButton"
         app:layout_constraintHorizontal_bias="0.5"

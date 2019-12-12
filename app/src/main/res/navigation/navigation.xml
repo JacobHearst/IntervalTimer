@@ -9,6 +9,7 @@
     <fragment
         android:id="@+id/intervalListFragment"
         android:name="com.example.intervaltimer.interval.IntervalListFragment"
+        android:label="Intervals"
         tools:layout="@layout/fragment_interval_list">
         <argument
             android:name="workout"
@@ -20,7 +21,7 @@
     <activity
         android:id="@+id/timerActivity"
         android:name="com.example.intervaltimer.TimerActivity"
-        android:label="fragment_timer"
+        android:label="Timer"
         tools:layout="@layout/fragment_timer">
         <argument
             android:name="IntervalList"
@@ -29,7 +30,7 @@
     <fragment
         android:id="@+id/workoutListFragment"
         android:name="com.example.intervaltimer.workout.WorkoutListFragment"
-        android:label="WorkoutListFragment" >
+        android:label="Workouts">
         <action
             android:id="@+id/action_workoutListFragment_to_intervalListFragment"
             app:destination="@id/intervalListFragment" />
