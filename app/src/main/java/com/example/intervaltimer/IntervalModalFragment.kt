@@ -162,7 +162,14 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
         val viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
         val workoutViewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
 
+        // Remove the old time from the workout and add the new one, but only remove the old time if the action is an edit
+        if(isUpdate) {
+            workout.length -= mInterval?.time!!
+        }
+
         workout.length += intervalTime
+
+        // Update the workout
         workoutViewModel.update(workout)
 
         if (isUpdate) viewModel.update(intervalToSubmit) else viewModel.insert(intervalToSubmit)

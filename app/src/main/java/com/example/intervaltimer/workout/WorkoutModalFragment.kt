@@ -54,6 +54,7 @@ class WorkoutModalFragment(private val workout: Workout?) : DialogFragment() {
                     dialog?.cancel()
                 }
 
+            // If the workout is null, that means that the user pressed the "add workout" floating action button
             if(workout == null) {
                 builder?.setCustomTitle(View.inflate(context, R.layout.add_workout_modal_title, null))
             } else {
