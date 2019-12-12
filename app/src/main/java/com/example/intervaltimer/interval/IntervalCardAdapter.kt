@@ -7,8 +7,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.intervaltimer.R
-import com.example.room.Interval
 import com.example.intervaltimer.Util
+import com.example.room.Interval
 
 /**
  * A [RecyclerView.Adapter] responsible for processing previous orders
@@ -23,8 +23,6 @@ class IntervalCardAdapter(listener: OnEditIntervalClickedListener) :
 
     private var intervals: MutableList<Interval>? = null
     private var editIntervalListener: OnEditIntervalClickedListener = listener
-
-    var wasSwiped = false
 
     /**
      * Provide a reference to the views for each data item
@@ -102,12 +100,11 @@ class IntervalCardAdapter(listener: OnEditIntervalClickedListener) :
     }
 
     fun insertItem(at: Int, interval: Interval) {
-        intervals?.add(at, interval)
-        notifyDataSetChanged()
-    }
-
-    fun deleteItem(interval: Interval) {
-        intervals?.remove(interval)
+        if (intervals != null && intervals!!.isEmpty()) {
+            intervals?.add(interval)
+        } else {
+            intervals?.add(at, interval)
+        }
         notifyDataSetChanged()
     }
 
