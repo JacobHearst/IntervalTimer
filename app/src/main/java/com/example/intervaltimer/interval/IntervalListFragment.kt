@@ -64,9 +64,8 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
 
             val list = IntervalListData(interList)
 
-            findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerActivity(list))
             if(recyclerView.adapter!!.itemCount > 0) {
-                findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerFragment())
+                findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerActivity(list))
             } else {
                 Toast.makeText(this.context, "This workout is empty!", Toast.LENGTH_LONG).show()
             }
