@@ -8,13 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.intervaltimer.databinding.FragmentIntervalModalBinding
 import com.example.intervaltimer.interval.IntervalViewModel
+import com.example.intervaltimer.workout.WorkoutViewModel
 import com.example.room.Interval
+import com.example.room.Workout
 import com.skydoves.colorpickerview.listeners.ColorListener
+import kotlinx.android.synthetic.main.fragment_interval_list.*
+import kotlinx.android.synthetic.main.fragment_interval_modal.view.*
 import java.util.*
 
 /**
@@ -26,6 +33,7 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
     private lateinit var binding: FragmentIntervalModalBinding
     private lateinit var dialog: AlertDialog
     private var mInterval: Interval? = interval
+    private lateinit var fragment: Fragment
 
     /**
      * onCreateDialog function
@@ -95,6 +103,13 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
     }
 
     /**
+     *
+     */
+    fun addFragmentReference(fragment: Fragment) {
+        this.fragment = fragment
+    }
+
+    /**
      * addInterval: Add Interval to Database
      */
     private fun submitInterval(isUpdate: Boolean) {
@@ -108,6 +123,10 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
         val intervalTime: Int = intervalMinutes * 60 + intervalSeconds
 
         val intervalColor: String = binding.intervalColorPicker.colorEnvelope.hexCode
+
+        val workout = arguments!!.getSerializable("workout") as Workout
+        val intervalIndex = arguments!!.getInt("newIndex")
+        val workoutId = workout.id!!
 
         // Get Input Types
         val intervalWorkoutType: String = (
@@ -127,8 +146,8 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
             if (isTimerInput) intervalTime else null,
             if (!isTimerInput) intervalReps else null,
             intervalColor,
-            arguments!!.getInt("newIndex"),
-            arguments!!.getInt("workoutId")
+            intervalIndex,
+            workoutId
             )
         else
             Interval(
@@ -141,8 +160,21 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
                 mInterval!!.index,
                 mInterval!!.workoutId)
         val viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
+        val workoutViewModel = ViewModelProviders.of(this).get(WorkoutViewModel::class.java)
+
+        // Remove the old time from the workout and add the new one, but only remove the old time if the action is an edit
+        if(isUpdate) {
+            workout.length -= mInterval?.time!!
+        }
+
+        workout.length += intervalTime
+
+        // Update the workout
+        workoutViewModel.update(workout)
 
         if (isUpdate) viewModel.update(intervalToSubmit) else viewModel.insert(intervalToSubmit)
+
+        fragment.intervalViewTotalTime.text = Util.getDurationLabel(workout.length)
     }
 
     /**
@@ -214,6 +246,33 @@ class IntervalModalFragment(interval: Interval?) : DialogFragment() {
                 binding.timerRadioButton.isChecked = true
                 binding.minutesInput.setText((mInterval?.time?.div(60)).toString())
                 binding.secondsInput.setText((mInterval?.time?.rem(60)).toString())
+            }
+
+            binding.minutesInput.setOnKeyListener { textView, i, keyEvent ->
+                if (textView.minutes_input.text.toString().isNotBlank()) {
+                    val inputValue = Integer.parseInt(textView.minutes_input.text.toString())
+                    val inputValid = inputValue < 60
+                    if (!inputValid) {
+                        textView?.minutes_input?.setText("59")
+                    }
+                    false
+                } else {
+                    true
+                }
+            }
+
+            binding.secondsInput.setOnKeyListener { textView, i, keyEvent ->
+                if (textView.seconds_input.text.toString().isNotBlank()) {
+                    val inputValue = Integer.parseInt(textView.seconds_input.text.toString())
+                    val inputValid = inputValue < 60
+                    if (!inputValid) {
+                        textView?.seconds_input?.setText("59")
+                        binding.minutesInput?.setText((Integer.parseInt(binding.minutesInput.text.toString()) + inputValue / 60).toString())
+                    }
+                    false
+                } else {
+                    true
+                }
             }
 
             binding.intervalNameInput.setText(mInterval?.name)

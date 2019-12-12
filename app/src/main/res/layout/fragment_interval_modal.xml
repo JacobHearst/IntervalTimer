@@ -6,11 +6,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/interval_modal_constraint_layout"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
 
         <CheckBox
             android:id="@+id/show_color_picker_checkbox"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/add_interval_checkbox_text"
@@ -20,7 +21,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/units_input_constraint_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
@@ -29,13 +30,16 @@
 
             <EditText
                 android:id="@+id/reps_input"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
+                android:hint="@string/add_interval_reps_toggle_text"
                 android:inputType="number"
                 android:textAlignment="center"
-                android:textSize="24sp"
+                android:textColorHint="#ACACAC"
+                android:textSize="36sp"
                 android:visibility="gone"
+                android:maxLength="3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -47,6 +51,7 @@
                 android:inputType="number"
                 android:textAlignment="center"
                 android:textSize="24sp"
+                android:maxLength="2"
                 app:layout_constraintEnd_toStartOf="@+id/minutes_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,12 +60,11 @@
                 android:id="@+id/minutes_text"
                 android:layout_width="75dp"
                 android:layout_height="45dp"
-                android:background="#7E7878"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:text="@string/interval_unit_minutes"
                 android:textAllCaps="true"
-                android:textSize="30sp"
+                android:textSize="26sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/minutes_input"
                 app:layout_constraintEnd_toStartOf="@+id/seconds_input" />
@@ -69,11 +73,10 @@
                 android:id="@+id/seconds_text"
                 android:layout_width="75dp"
                 android:layout_height="45dp"
-                android:background="#7E7878"
                 android:gravity="center"
                 android:text="@string/interval_second_unit"
                 android:textAllCaps="true"
-                android:textSize="30sp"
+                android:textSize="26sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/seconds_input"
                 app:layout_constraintStart_toEndOf="@+id/seconds_input" />
@@ -86,13 +89,14 @@
                 android:inputType="number"
                 android:textAlignment="center"
                 android:textSize="24sp"
+                android:maxLength="2"
                 app:layout_constraintBottom_toBottomOf="@+id/minutes_text"
                 app:layout_constraintEnd_toStartOf="@+id/seconds_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RadioGroup
             android:id="@+id/workout_type_group"
-            android:layout_width="169dp"
+            android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -122,7 +126,7 @@
 
         <RadioGroup
             android:id="@+id/workout_units_group"
-            android:layout_width="169dp"
+            android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_marginTop="16dp"
             android:background="#002B1E1E"
@@ -151,7 +155,7 @@
 
         <ImageView
             android:id="@+id/color_picker_box"
-            android:layout_width="75dp"
+            android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_marginTop="24dp"
             android:contentDescription="@string/color_picker_box_desc"
@@ -161,7 +165,7 @@
 
         <EditText
             android:id="@+id/interval_name_input"
-            android:layout_width="218dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -175,7 +179,7 @@
 
         <com.skydoves.colorpickerview.ColorPickerView
             android:id="@+id/interval_color_picker"
-            android:layout_width="225dp"
+            android:layout_width="0dp"
             android:layout_height="115dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
@@ -185,7 +189,6 @@
             app:layout_constraintStart_toEndOf="@+id/color_picker_box"
             app:layout_constraintTop_toBottomOf="@+id/show_color_picker_checkbox"
             app:palette="@drawable/color_palette_bar"
-            app:selector="@drawable/wheel"></com.skydoves.colorpickerview.ColorPickerView>
-
+            app:selector="@drawable/wheel"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

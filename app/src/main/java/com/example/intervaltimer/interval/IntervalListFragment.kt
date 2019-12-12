@@ -2,10 +2,13 @@ package com.example.intervaltimer.interval
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,9 +20,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.intervaltimer.IntervalListData
 import com.example.intervaltimer.IntervalModalFragment
 import com.example.intervaltimer.R
-import com.example.room.Interval
 import com.example.intervaltimer.Util
 import com.example.intervaltimer.interval.IntervalCardAdapter.OnEditIntervalClickedListener
+import com.example.room.Interval
 import kotlinx.android.synthetic.main.fragment_interval_list.view.*
 
 /**
@@ -34,7 +37,7 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
     private lateinit var viewModel: IntervalViewModel
     private lateinit var recyclerView: RecyclerView
     lateinit var interList: List<Interval>
-
+    private lateinit var zeroStateLabel: TextView
 
     /**
      * Initialize data binding, recycler view
@@ -43,11 +46,12 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_interval_list, container, false)
         viewModel = ViewModelProviders.of(this).get(IntervalViewModel::class.java)
+
+        zeroStateLabel = rootView.intervalZeroStateLabel
         recyclerView = initRecyclerView(rootView.intervalList)
 
         rootView.intervalViewWorkoutName.text = args.workout.name
-        rootView.intervalViewTotalTime.text =
-            Util.getDurationLabel(args.workout.length)
+        rootView.intervalViewTotalTime.text = Util.getDurationLabel(args.workout.length)
 
         /**
          * Upon click, open Add Interval Modal
@@ -61,6 +65,11 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
             val list = IntervalListData(interList)
 
             findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerActivity(list))
+            if(recyclerView.adapter!!.itemCount > 0) {
+                findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerFragment())
+            } else {
+                Toast.makeText(this.context, "This workout is empty!", Toast.LENGTH_LONG).show()
+            }
         }
 
         return rootView
@@ -94,14 +103,15 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         // Populate the RecyclerView
         viewModel.getIntervalsByWorkout(args.workout.id!!).observe(this,
             Observer<List<Interval>> { intervals ->
-                Log.d("INTERVAL_LIST_FRAGMENT", intervals.toString())
                 intervalAdapter.setItems(intervals.toMutableList())
                 interList = intervalAdapter.getItems()
+                zeroStateLabel.visibility = if (intervals.isEmpty()) VISIBLE else GONE
+                recyclerView.visibility = if (intervals.isEmpty()) GONE else VISIBLE
             }
         )
 
         ItemTouchHelper(
-            IntervalItemTouchCallback(intervalAdapter, this)
+            IntervalItemTouchCallback(intervalAdapter, this, args.workout)
         ).attachToRecyclerView(recyclerView)
 
 
@@ -117,12 +127,16 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         val dialog = IntervalModalFragment(interval)
         val bundle = Bundle()
 
+        dialog.addFragmentReference(this)
+
+        // If the interval is a new interval
         if (interval == null) {
-            bundle.putInt("workoutId", args.workout.id as Int)
             bundle.putInt("newIndex", recyclerView.adapter?.itemCount as Int)
-            // Create an instance of the dialog fragment and show it
-            dialog.arguments = bundle
         }
+
+        // Pass a reference to the workout for UI and database updates
+        bundle.putSerializable("workout", args.workout)
+        dialog.arguments = bundle
 
         dialog.show(activity!!.supportFragmentManager, "IntervalModalFragment")
     }
