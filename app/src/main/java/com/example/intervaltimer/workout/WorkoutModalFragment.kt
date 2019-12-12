@@ -54,6 +54,12 @@ class WorkoutModalFragment(private val workout: Workout?) : DialogFragment() {
                     dialog?.cancel()
                 }
 
+            if(workout == null) {
+                builder?.setCustomTitle(View.inflate(context, R.layout.add_workout_modal_title, null))
+            } else {
+                builder?.setCustomTitle(View.inflate(context, R.layout.edit_workout_modal_title, null))
+            }
+
             builder?.show()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
