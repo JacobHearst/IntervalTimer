@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.intervaltimer.IntervalListData
 import com.example.intervaltimer.IntervalModalFragment
 import com.example.intervaltimer.R
 import com.example.room.Interval
@@ -32,6 +33,8 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
     private lateinit var listener: OnEditIntervalClickedListener
     private lateinit var viewModel: IntervalViewModel
     private lateinit var recyclerView: RecyclerView
+    lateinit var interList: List<Interval>
+
 
     /**
      * Initialize data binding, recycler view
@@ -54,7 +57,10 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         }
 
         rootView.startWorkout.setOnClickListener {
-            findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerFragment())
+
+            val list = IntervalListData(interList)
+
+            findNavController().navigate(IntervalListFragmentDirections.actionIntervalListFragmentToTimerActivity(list))
         }
 
         return rootView
@@ -78,6 +84,7 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
         listener = this
         val intervalAdapter = IntervalCardAdapter(listener)
 
+
         recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = recyclerLayout
@@ -89,12 +96,15 @@ class IntervalListFragment : Fragment(), OnEditIntervalClickedListener {
             Observer<List<Interval>> { intervals ->
                 Log.d("INTERVAL_LIST_FRAGMENT", intervals.toString())
                 intervalAdapter.setItems(intervals.toMutableList())
+                interList = intervalAdapter.getItems()
             }
         )
 
         ItemTouchHelper(
             IntervalItemTouchCallback(intervalAdapter, this)
         ).attachToRecyclerView(recyclerView)
+
+
 
         return recyclerView
     }

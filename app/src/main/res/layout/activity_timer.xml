@@ -79,13 +79,16 @@
 
     <ProgressBar
         android:id="@+id/workoutProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="24dp"
-        android:background="#18FFFF"
+        android:background="@color/colorBackground"
+        android:maxHeight="16dip"
+        android:minHeight="16dip"
+        android:progressTint="@color/colorBackground"
         android:scrollbarSize="4dp"
         android:scrollbarStyle="outsideInset"
         app:layout_constraintBottom_toBottomOf="parent"

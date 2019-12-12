@@ -4,18 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/landingFragment">
+    app:startDestination="@id/workoutListFragment">
 
-    <fragment
-        android:id="@+id/landingFragment"
-        android:name="com.example.intervaltimer.workout.WorkoutListFragment"
-        android:label="Interval Timer"
-        tools:layout="@layout/fragment_landing" >
-        <action
-            android:id="@+id/action_landingFragment_to_intervalListFragment"
-            app:destination="@id/intervalListFragment"
-            app:popUpTo="@+id/landingFragment" />
-    </fragment>
     <fragment
         android:id="@+id/intervalListFragment"
         android:name="com.example.intervaltimer.interval.IntervalListFragment"
@@ -36,4 +26,12 @@
             android:name="IntervalList"
             app:argType="com.example.intervaltimer.IntervalListData" />
     </activity>
+    <fragment
+        android:id="@+id/workoutListFragment"
+        android:name="com.example.intervaltimer.workout.WorkoutListFragment"
+        android:label="WorkoutListFragment" >
+        <action
+            android:id="@+id/action_workoutListFragment_to_intervalListFragment"
+            app:destination="@id/intervalListFragment" />
+    </fragment>
 </navigation>
