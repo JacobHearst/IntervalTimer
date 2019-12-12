@@ -125,8 +125,25 @@ class WorkoutCardAdapter(): RecyclerView.Adapter<WorkoutCardAdapter.WorkoutHolde
         }
     }
 
+    /**
+     * Get all the items from the RecyclerView.
+     */
     fun getItems() : List<Workout> = workouts!!.toList()
 
+    /**
+     * Used only for testing purposes, to clear the RecyclerView before each test.
+     */
+    fun deleteAllItems() {
+        workouts?.forEach {
+            viewModel.delete(it)
+        }
+    }
+
+    /**
+     * Delete an item from the RecyclerView given an index.
+     *
+     * @param position Index of card to delete.
+     */
     fun deleteItem(position: Int) {
         workouts?.removeAt(position)
     }
