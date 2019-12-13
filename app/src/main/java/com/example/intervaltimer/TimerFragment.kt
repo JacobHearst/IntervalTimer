@@ -120,7 +120,6 @@ class TimerFragment : Fragment() {
         notificationBuilder = NotificationCompat.Builder(this.context!!, getString(R.string.notification_channel))
         notificationManager = activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         createNotificationChannel()
-
         createNotification()
 
         // val audioManager: AudioManager = getSystemService(AUDIO_SERVICE) as AudioManager // Audio manager in case we need it
